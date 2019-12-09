@@ -1,6 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp">
+
+            <TableRow>
+
+                <TextView
+                    android:text="parcel type:"
+                    android:textSize="20sp" />
+
+                <RadioGroup>
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="envelpoe" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="small package" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="big package" />
+                </RadioGroup>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="is it fargile?"
+                    android:textSize="20sp" />
+
+                <RadioGroup>
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="yes" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="no" />
+
+                </RadioGroup>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="weight:"
+                    android:textSize="20sp" />
+
+                <EditText android:hint="enter weight in kilograms" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="location:"
+                    android:textSize="20sp" />
+
+                <EditText android:hint="for auto-calculation leave empty" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="recipient name:"
+                    android:textSize="20sp" />
+
+                <EditText android:hint="enter recipient name" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="recipient phone:"
+                    android:textSize="20sp" />
+
+                <EditText android:hint="enter recipient phone" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="recipient address:"
+                    android:textSize="20sp" />
+
+                <EditText android:hint="enter recipient address" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="recipient email:"
+                    android:textSize="20sp" />
+
+                <EditText android:hint="enter recipient email" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="Is pick up suggested?:"
+                    android:textSize="20sp" />
+
+                <Switch android:id="@+id/swPickUp" />
+
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="messenger name:"
+                    android:textSize="20sp" />
+
+                <EditText android:hint="enter messenger name" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:text="messenger id:"
+                    android:textSize="20sp" />
+
+                <EditText android:hint="enter messenger id" />
+            </TableRow>
+
+        </TableLayout>
+    </ScrollView>
+
 
 </LinearLayout>
