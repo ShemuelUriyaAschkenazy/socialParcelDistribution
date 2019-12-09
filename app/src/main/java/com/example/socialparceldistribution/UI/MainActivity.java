@@ -14,7 +14,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button addParcel= findViewById(R.id.btn_addParcel);
+        Button addParcel= findViewById(R.id.btn_addParcelActivity);
         addParcel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

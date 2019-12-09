@@ -6,142 +6,179 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent">
 
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp"
+            android:paddingBottom="30dp"
+            android:orientation="vertical">
 
-            <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="enter parcel details:"
+                android:textSize="20sp"
+                />
 
-                <TextView
-                    android:text="parcel type:"
-                    android:textSize="20sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="parcel type"
+                    android:textSize="18sp"
+                    android:layout_marginTop="4dp"/>
 
-                <RadioGroup>
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:id="@+id/rg_parcelType">
 
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="envelpoe" />
+                        android:text="envelpoe"
+                        android:id="@+id/rb_evelope"/>
 
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="small package" />
+                        android:text="small package"
+                        android:id="@+id/rb_smallPackage"/>
 
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="big package" />
+                        android:text="big package"
+                        android:id="@+id/rb_bigPackage"/>
                 </RadioGroup>
-            </TableRow>
 
-            <TableRow>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="fragility"
+                    android:textSize="18sp" />
 
-                <TextView
-                    android:text="is it fargile?"
-                    android:textSize="20sp" />
-
-                <RadioGroup>
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="yes" />
+                <RadioGroup android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="4dp"
+                    android:id="@+id/rg_fragility">
 
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="no" />
+                        android:text="yes"
+                        android:id="@+id/rb_Fragile"/>
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="no"
+                        android:id="@+id/rb_notFragile"/>
 
                 </RadioGroup>
-            </TableRow>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="weight"
+                    android:inputType="number"
+                    android:textSize="18sp"/>
 
-            <TableRow>
+                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:hint="enter weight in kilograms"
+                    android:id="@+id/et_weight"/>
 
-                <TextView
-                    android:text="weight:"
-                    android:textSize="20sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="location"
+                    android:textSize="18sp" />
 
-                <EditText android:hint="enter weight in kilograms" />
-            </TableRow>
+                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:id="@+id/et_location"
+                    android:hint="for auto-calculation leave empty" />
 
-            <TableRow>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="recipient name"
+                    android:textSize="18sp" />
 
-                <TextView
-                    android:text="location:"
-                    android:textSize="20sp" />
+                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:hint="enter recipient name"
+                    android:id="@+id/et_recipient_name"/>
 
-                <EditText android:hint="for auto-calculation leave empty" />
-            </TableRow>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="recipient phone"
+                    android:textSize="18sp" />
+                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:inputType="phone"
+                    android:id="@+id/et_recipient_phone"
+                    android:hint="enter recipient phone" />
 
-            <TableRow>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="18sp"
+                    android:text="recipient address"
+                    />
+                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:id="@+id/et_recipient_address"
+                    android:hint="enter recipient address" />
 
-                <TextView
-                    android:text="recipient name:"
-                    android:textSize="20sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="recipient email"
+                    android:textSize="18sp" />
+                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:inputType="textEmailAddress"
+                    android:id="@+id/et_recipient_email"
+                    android:hint="enter recipient email" />
 
-                <EditText android:hint="enter recipient name" />
-            </TableRow>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="pick up suggested"
+                    android:textSize="18sp" />
+                <Switch android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:id="@+id/swPickUp"
+                    android:gravity="center"/>
+            </LinearLayout>
 
-            <TableRow>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="messenger name"
+                    android:textSize="18sp" />
+                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:id="@+id/et_messenger_name"
+                    android:hint="enter messenger name"/>
 
-                <TextView
-                    android:text="recipient phone:"
-                    android:textSize="20sp" />
+\                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="messenger id"
+                    android:textSize="18sp" />
+                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:id="@+id/et_messenger_id"
+                    android:hint="enter messenger id" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="add parcel"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:id="@+id/btn_addParcel"/>
+        </LinearLayout>
 
-                <EditText android:hint="enter recipient phone" />
-            </TableRow>
 
-            <TableRow>
-
-                <TextView
-                    android:text="recipient address:"
-                    android:textSize="20sp" />
-
-                <EditText android:hint="enter recipient address" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:text="recipient email:"
-                    android:textSize="20sp" />
-
-                <EditText android:hint="enter recipient email" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:text="Is pick up suggested?:"
-                    android:textSize="20sp" />
-
-                <Switch android:id="@+id/swPickUp" />
-
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:text="messenger name:"
-                    android:textSize="20sp" />
-
-                <EditText android:hint="enter messenger name" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:text="messenger id:"
-                    android:textSize="20sp" />
-
-                <EditText android:hint="enter messenger id" />
-            </TableRow>
-
-        </TableLayout>
     </ScrollView>
 
 
