@@ -16,7 +16,7 @@
         </activity>
 
         <activity android:name=".UI.AddParcel.AddParcelActivity"/>
-
+        <activity android:name=".UI.ParcelHistory.HistoryParcelsActivity"/>
 
     </application>
 

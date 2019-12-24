@@ -1,9 +1,6 @@
 package com.example.socialparceldistribution.Data;
-
 import androidx.lifecycle.MutableLiveData;
-
 import com.example.socialparceldistribution.Entities.Parcel;
-
 import java.util.List;
 
 public class ParcelRepository {
@@ -15,7 +12,8 @@ public class ParcelRepository {
         ParcelDataSource.changedListener changedListener= new ParcelDataSource.changedListener() {
             @Override
             public void change() {
-                //todo(parcelDataSource.getParcelsList());
+                mutableLiveData.setValue(parcelDataSource.getParcelsList());
+
             }
         };
         parcelDataSource.setChangedListener(changedListener);
@@ -30,9 +28,6 @@ public class ParcelRepository {
             instance = new ParcelRepository();
         return instance;
     }
-
-
-
 
     public MutableLiveData<Boolean> getStatus(){
         //todo

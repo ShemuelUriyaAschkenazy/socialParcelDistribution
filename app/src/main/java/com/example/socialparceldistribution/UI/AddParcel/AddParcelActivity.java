@@ -16,6 +16,8 @@ import android.widget.Switch;
 import com.example.socialparceldistribution.R;
 
 public class AddParcelActivity extends Activity {
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
