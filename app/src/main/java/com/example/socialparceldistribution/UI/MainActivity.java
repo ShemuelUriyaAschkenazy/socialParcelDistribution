@@ -22,8 +22,8 @@ public class MainActivity extends Activity {
         addParcel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParcelDataSource parcelDataSource =new ParcelDataSource();
-                parcelDataSource.addParcel(MainActivity.this);
+                //ParcelDataSource parcelDataSource =new ParcelDataSource();
+                //parcelDataSource.addParcel(MainActivity.this);
 
                 Intent intent= new Intent(MainActivity.this, AddParcelActivity.class);
                 startActivity(intent);

@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ParcelDataSource {
 
-   // MutableLiveData<Boolean> booleanMutableLiveData;
+    // MutableLiveData<Boolean> booleanMutableLiveData;
 
 
     public interface changedListener {
@@ -46,7 +46,7 @@ public class ParcelDataSource {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference parcels = firebaseDatabase.getReference("parcels");
 
-    public ParcelDataSource() {
+    private ParcelDataSource() {
         parcelsList = new ArrayList<>();
         parcels.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -58,7 +58,7 @@ public class ParcelDataSource {
                         Parcel parcel = snapshot.getValue(Parcel.class);
                         parcelsList.add(parcel);
                     }
-                    if (listener!=null)
+                    if (listener != null)
                         listener.change();
                 }
             }
@@ -69,16 +69,20 @@ public class ParcelDataSource {
             }
         });
     }
+    private static ParcelDataSource instance;
+    public static ParcelDataSource getInstance() {
+        if (instance == null)
+            instance = new ParcelDataSource();
+        return instance;
+    }
 
 
+    public boolean addParcel(final Context context,Parcel p) {
 
-    public boolean addParcel(final Context context) {
-        Parcel p = new Parcel();
-
-        parcels.child("1").setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
+        parcels.child(p.getParcelId()+"").setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(context, "failure", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "success", Toast.LENGTH_LONG).show();
 
             }
 
@@ -90,7 +94,7 @@ public class ParcelDataSource {
 
             }
         });
-return false;//todo
+        return false;//todo
     }
 }
 
