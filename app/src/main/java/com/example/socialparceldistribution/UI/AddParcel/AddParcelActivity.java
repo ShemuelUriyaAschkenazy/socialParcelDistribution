@@ -26,9 +26,7 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
 
     AddParcelViewModel addParcelViewModel;
     RadioGroup radioGroup_type, radioGroup_fragility;
-    EditText etWeight, etLocation, etRecipient_name, etRecipient_phone, etRecipient_address, etRecipient_email,
-            etMessenger_name, etMessenger_id;
-    Button btAddParcel;
+
     Parcel parcel;
     RadioButton radioButton_envelope, radioButton_big, radioButton_small, radioButton_fragile, radioButton_noFragile;
 

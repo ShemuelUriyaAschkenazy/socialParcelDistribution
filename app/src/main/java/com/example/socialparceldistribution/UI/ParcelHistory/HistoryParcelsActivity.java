@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,16 +19,26 @@ import java.util.List;
 public class HistoryParcelsActivity extends AppCompatActivity {
 
     List<Parcel> parcelList;
-
+    ParcelHistoryViewModel parcelHistoryViewModel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_parcels);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        final RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        parcelHistoryViewModel = ViewModelProviders.of(this).get(ParcelHistoryViewModel.class);
+        final HistoryParcelsAdapter historyParcelsAdapter = new HistoryParcelsAdapter(parcelList);
+        recyclerView.setAdapter(historyParcelsAdapter);
+        Observer<List<Parcel>> observer = new Observer<List<Parcel>>() {
+            @Override
+            public void onChanged(List<Parcel> parcels) {
+                recyclerView.setAdapter(historyParcelsAdapter);
 
+            }
+        };
+        parcelHistoryViewModel.getMutableLiveData().observe(this,observer);
         parcelList = new ArrayList<>();
 //        Parcel parcel;
 //        for (int i = 0; i < 80; i++) {
@@ -35,8 +47,9 @@ public class HistoryParcelsActivity extends AppCompatActivity {
 //            parcel.setDeliveryDate(new Date(i, 1, 1));
 //            parcelList.add(parcel);
 //        }
-        HistoryParcelsAdapter historyParcelsAdapter = new HistoryParcelsAdapter(parcelList);
-        recyclerView.setAdapter(historyParcelsAdapter);
+
+
+
     }
 
 

@@ -18,23 +18,6 @@ import java.util.Date;
 public class AddParcelViewModel extends AndroidViewModel {
     ParcelRepository parcelRepository;
     MutableLiveData<Boolean> booleanMutableLiveData;
-    RadioGroup radioGroup_type, radioGroup_fragility;
-    EditText etWeight, etLocation, etRecipient_name, etRecipient_phone, etRecipient_address, etRecipient_email,
-            etMessenger_name, etMessenger_id;
-
-    private int parcelId;
-    private Parcel.ParcelType parcelType;
-    private boolean isFragile;
-    double weight;
-    private Location location;
-    private String recipientName;
-    private String address;
-    private Date deliveryDate;
-    private Date arrivalDate;
-    private String recipientPhone;
-    private String recipientEmail;
-    private String messengerName;
-    private int messengerId;
 
     public AddParcelViewModel(@NonNull Application application) {
         super(application);
