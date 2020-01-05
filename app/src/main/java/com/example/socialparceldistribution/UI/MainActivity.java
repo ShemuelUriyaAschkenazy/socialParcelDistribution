@@ -8,6 +8,7 @@ import android.widget.Button;
 import com.example.socialparceldistribution.Data.ParcelDataSource;
 import com.example.socialparceldistribution.R;
 import com.example.socialparceldistribution.UI.AddParcel.AddParcelActivity;
+import com.example.socialparceldistribution.UI.ParcelHistory.HistoryParcelsActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,6 +26,16 @@ public class MainActivity extends Activity {
                 parcelDataSource.addParcel(MainActivity.this);
 
                 Intent intent= new Intent(MainActivity.this, AddParcelActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button history= findViewById(R.id.btn_parcelHistory);
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent= new Intent(MainActivity.this, HistoryParcelsActivity.class);
                 startActivity(intent);
             }
         });

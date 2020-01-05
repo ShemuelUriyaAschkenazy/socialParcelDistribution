@@ -33,4 +33,8 @@ public class ParcelRepository {
         //todo
         return new MutableLiveData<Boolean>();
     }
+
+
+    public void addParcel() {
+    }
 }

@@ -3,8 +3,12 @@ package com.example.socialparceldistribution.Entities;
 import android.location.Address;
 import android.location.Location;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.Date;
 
+@Entity
 public class Parcel {
 
     public int getParcelId() {
@@ -115,7 +119,7 @@ public class Parcel {
 
     public enum ParcelStatus {registered, pickUpSuggested, onTheWay, successfullyArrived}
 
-
+@PrimaryKey
     private int parcelId;
     private ParcelType parcelType;
     private boolean isFragile;

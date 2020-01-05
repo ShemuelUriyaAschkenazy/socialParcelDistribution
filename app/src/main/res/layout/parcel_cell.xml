@@ -9,11 +9,27 @@
     app:cardUseCompatPadding="true"
     app:contentPadding="10dp">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="name"
-        android:textSize="20sp"
-        android:id="@+id/parcel"/>
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/parcelId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="id"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="date"
+            android:textSize="20sp" />
+    </LinearLayout>
+
 
 </androidx.cardview.widget.CardView>
