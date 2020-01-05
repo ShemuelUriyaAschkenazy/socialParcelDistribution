@@ -10,6 +10,24 @@ import java.util.Date;
 
 @Entity
 public class Parcel {
+    public Parcel(int parcelId, ParcelType parcelType, Boolean isFragile, Double weight, Location location, String recipientName, String address, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail, String messengerName, Integer messengerId) {
+        this.parcelId = parcelId;
+        this.parcelType = parcelType;
+        this.isFragile = isFragile;
+        this.weight = weight;
+        this.location = location;
+        this.recipientName = recipientName;
+        this.address = address;
+        this.deliveryDate = deliveryDate;
+        this.arrivalDate = arrivalDate;
+        this.recipientPhone = recipientPhone;
+        this.recipientEmail = recipientEmail;
+        this.messengerName = messengerName;
+        this.messengerId = messengerId;
+    }
+
+    public Parcel() {
+    }
 
     public int getParcelId() {
         return parcelId;
@@ -27,19 +45,19 @@ public class Parcel {
         this.parcelType = parcelType;
     }
 
-    public boolean isFragile() {
+    public Boolean isFragile() {
         return isFragile;
     }
 
-    public void setFragile(boolean fragile) {
+    public void setFragile(Boolean fragile) {
         isFragile = fragile;
     }
 
-    public double getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
@@ -107,11 +125,11 @@ public class Parcel {
         this.messengerName = messengerName;
     }
 
-    public int getMessengerId() {
+    public Integer getMessengerId() {
         return messengerId;
     }
 
-    public void setMessengerId(int messengerId) {
+    public void setMessengerId(Integer messengerId) {
         this.messengerId = messengerId;
     }
 
@@ -122,8 +140,8 @@ public class Parcel {
 @PrimaryKey
     private int parcelId;
     private ParcelType parcelType;
-    private boolean isFragile;
-    double weight;
+    private Boolean isFragile;
+    private Double weight;
     private Location location;
     private String recipientName;
     private String address;
@@ -132,7 +150,7 @@ public class Parcel {
     private String recipientPhone;
     private String recipientEmail;
     private String messengerName;
-    private int messengerId;
+    private Integer messengerId;
 
 
 }
