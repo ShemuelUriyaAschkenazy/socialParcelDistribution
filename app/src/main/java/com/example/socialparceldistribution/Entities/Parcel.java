@@ -6,7 +6,7 @@ import android.location.Location;
 import java.util.Date;
 
 public class Parcel {
-    public Parcel(int parcelId, ParcelType parcelType, Boolean isFragile, Double weight, Location location, String recipientName, String address, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail, String messengerName, Integer messengerId) {
+    public Parcel(String parcelId, ParcelType parcelType, Boolean isFragile, Double weight, Location location, String recipientName, String address, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail, String messengerName, Integer messengerId) {
         this.parcelId = parcelId;
         this.parcelType = parcelType;
         this.isFragile = isFragile;
@@ -22,14 +22,15 @@ public class Parcel {
         this.messengerId = messengerId;
     }
 
+
     public Parcel() {
     }
 
-    public int getParcelId() {
+    public String getParcelId() {
         return parcelId;
     }
 
-    public void setParcelId(int parcelId) {
+    public void setParcelId(String parcelId) {
         this.parcelId = parcelId;
     }
 
@@ -41,7 +42,7 @@ public class Parcel {
         this.parcelType = parcelType;
     }
 
-    public Boolean isFragile() {
+    public Boolean getFragile() {
         return isFragile;
     }
 
@@ -134,7 +135,7 @@ public class Parcel {
     public enum ParcelStatus {registered, pickUpSuggested, onTheWay, successfullyArrived}
 
 
-    private int parcelId;
+    private String parcelId;
     private ParcelType parcelType;
     private Boolean isFragile;
     private Double weight;

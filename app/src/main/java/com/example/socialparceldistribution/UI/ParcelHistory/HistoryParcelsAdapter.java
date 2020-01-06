@@ -1,6 +1,5 @@
 package com.example.socialparceldistribution.UI.ParcelHistory;
 
-import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.socialparceldistribution.Entities.Parcel;
 import com.example.socialparceldistribution.R;
 
-import java.util.Date;
 import java.util.List;
 
 public class HistoryParcelsAdapter extends RecyclerView.Adapter<HistoryParcelsAdapter.HistoryParcelViewHolder> {

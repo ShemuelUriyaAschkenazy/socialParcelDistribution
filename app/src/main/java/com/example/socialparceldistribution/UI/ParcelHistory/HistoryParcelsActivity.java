@@ -18,7 +18,7 @@ import java.util.List;
 
 public class HistoryParcelsActivity extends AppCompatActivity {
 
-    List<Parcel> parcelList;
+//    List<Parcel> parcelList;
     ParcelHistoryViewModel parcelHistoryViewModel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,20 +26,23 @@ public class HistoryParcelsActivity extends AppCompatActivity {
         setContentView(R.layout.history_parcels);
         final RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         parcelHistoryViewModel = ViewModelProviders.of(this).get(ParcelHistoryViewModel.class);
-        final HistoryParcelsAdapter historyParcelsAdapter = new HistoryParcelsAdapter(parcelList);
-        recyclerView.setAdapter(historyParcelsAdapter);
+
+//        parcelList = new ArrayList<>();
+//        final HistoryParcelsAdapter historyParcelsAdapter = new HistoryParcelsAdapter(parcelList);
+//        recyclerView.setAdapter(historyParcelsAdapter);
         Observer<List<Parcel>> observer = new Observer<List<Parcel>>() {
+
             @Override
             public void onChanged(List<Parcel> parcels) {
-                recyclerView.setAdapter(historyParcelsAdapter);
+//                recyclerView.setAdapter(historyParcelsAdapter);
+                recyclerView.setAdapter(new HistoryParcelsAdapter(parcels));
 
             }
         };
         parcelHistoryViewModel.getMutableLiveData().observe(this,observer);
-        parcelList = new ArrayList<>();
 //        Parcel parcel;
 //        for (int i = 0; i < 80; i++) {
 //            parcel = new Parcel();

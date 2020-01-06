@@ -35,6 +35,7 @@ public class ParcelDataSource {
         listener = l;
     }
 
+    List<Parcel> parcelsList;
 
     public List<Parcel> getParcelsList() {
         return parcelsList;
@@ -42,32 +43,31 @@ public class ParcelDataSource {
 
     // FirebaseDatabase firebaseDatabase =  FirebaseDatabase.getInstance();
     // DatabaseReference warehouses = firebaseDatabase.getReference("warehouses");
-    List<Parcel> parcelsList;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference parcels = firebaseDatabase.getReference("parcels");
 
     private ParcelDataSource() {
         parcelsList = new ArrayList<>();
-        parcels.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                parcelsList.clear();
-
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Parcel parcel = snapshot.getValue(Parcel.class);
-                        parcelsList.add(parcel);
-                    }
-                    if (listener != null)
-                        listener.change();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        parcels.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                parcelsList.clear();
+//
+//                if (dataSnapshot.exists()) {
+//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                        Parcel parcel = (Parcel) snapshot.getValue(false);
+//                        parcelsList.add(parcel);
+//                    }
+//                    if (listener != null)
+//                        listener.change();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
     }
     private static ParcelDataSource instance;
     public static ParcelDataSource getInstance() {
