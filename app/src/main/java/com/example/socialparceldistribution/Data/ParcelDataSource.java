@@ -48,19 +48,18 @@ public class ParcelDataSource {
 
     private ParcelDataSource() {
         parcelsList = new ArrayList<>();
-        parcels.addListenerForSingleValueEvent(new ValueEventListener() {
+        parcels.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 parcelsList.clear();
-
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Parcel parcel = snapshot.getValue(Parcel.class);
                         parcelsList.add(parcel);
                     }
-                    if (listener != null)
-                        listener.change();
                 }
+                if (listener != null)
+                    listener.change();
             }
 
             @Override
@@ -69,7 +68,9 @@ public class ParcelDataSource {
             }
         });
     }
+
     private static ParcelDataSource instance;
+
     public static ParcelDataSource getInstance() {
         if (instance == null)
             instance = new ParcelDataSource();
@@ -77,9 +78,10 @@ public class ParcelDataSource {
     }
 
 
-    public boolean addParcel(final Context context,Parcel p) {
-
-        parcels.child(p.getParcelId()+"").setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
+    public boolean addParcel(final Context context, Parcel p) {
+        String id = parcels.push().getKey();
+        p.setParcelId(id);
+        parcels.child(id).setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(context, "success", Toast.LENGTH_LONG).show();

@@ -105,9 +105,9 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
                 default:
                     isFragile = null;
             }
-            parcel = new Parcel(1,
+            parcel = new Parcel(
 //                    Math.toIntExact(System.currentTimeMillis()/1000000),
-                    parcelType,
+                    null,null,
                     isFragile,
                     ((EditText) findViewById(R.id.et_weight)).getText().toString().equals("")? null:
                             Double.parseDouble(((EditText) findViewById(R.id.et_weight)).getText().toString()),
