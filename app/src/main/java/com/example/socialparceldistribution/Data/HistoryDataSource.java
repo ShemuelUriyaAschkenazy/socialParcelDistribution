@@ -14,7 +14,7 @@ import com.example.socialparceldistribution.Entities.Parcel;
 public abstract class HistoryDataSource extends RoomDatabase {
 
     public static final String DATABASE_NAME="database.db";
-    public static HistoryDataSource database;
+    private static HistoryDataSource database;
 
     public static HistoryDataSource getInstance(Context context){
         if (database==null)

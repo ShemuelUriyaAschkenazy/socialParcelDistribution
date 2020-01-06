@@ -1,8 +1,5 @@
 package com.example.socialparceldistribution.Entities;
 
-import android.location.Address;
-import android.location.Location;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -19,13 +16,13 @@ public class Parcel {
     public Parcel() {
     }
 
-    public Parcel(ParcelType parcelType, ParcelStatus parcelStatus, Boolean isFragile, Double weight, Location location, String recipientName, String address, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail, String messengerName, Integer messengerId) {
-        this.parcelId="aaa";
+    public Parcel(ParcelType parcelType, ParcelStatus parcelStatus, Boolean isFragile, Double weight, UserLocation location, String recipientName, String address, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail, String messengerName, Integer messengerId) {
+        this.parcelId = "aaa";
         this.parcelType = parcelType;
         this.parcelStatus = parcelStatus;
         this.isFragile = isFragile;
         this.weight = weight;
-        this.location = location;
+        this.userLocation = location;
         this.recipientName = recipientName;
         this.address = address;
         this.deliveryDate = deliveryDate;
@@ -70,12 +67,12 @@ public class Parcel {
         this.weight = weight;
     }
 
-    public Location getLocation() {
-        return location;
+    public UserLocation getLocation() {
+        return userLocation;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLocation(UserLocation location) {
+        this.userLocation = location;
     }
 
     public String getRecipientName() {
@@ -128,6 +125,14 @@ public class Parcel {
 
     public String getMessengerName() {
         return messengerName;
+    }
+
+    public UserLocation getUserLocation() {
+        return userLocation;
+    }
+
+    public void setUserLocation(UserLocation userLocation) {
+        this.userLocation = userLocation;
     }
 
     public void setMessengerName(String messengerName) {
@@ -205,7 +210,7 @@ public class Parcel {
 
     @NonNull
     @PrimaryKey
-    private String parcelId="aaa";
+    private String parcelId = "aaa";
     @TypeConverters(ParcelType.class)
     private ParcelType parcelType;
     @TypeConverters(ParcelStatus.class)
@@ -214,7 +219,7 @@ public class Parcel {
     private Boolean isFragile;
     private Double weight;
     @TypeConverters(LocationConverter.class)
-    private Location location;
+    private UserLocation userLocation;
     private String recipientName;
     private String address;
     @TypeConverters(DateConverter.class)
@@ -240,15 +245,22 @@ public class Parcel {
 
     public static class LocationConverter {
         @TypeConverter
-        public Location fromString(String value) {
-            return value == null ? null : new Location(value);
+        public UserLocation fromString(String value) {
+            Double lat= Double.parseDouble(value.split("")[0]);
+            Double lang = Double.parseDouble(value.split("")[1]);
+            return new UserLocation(lat,lang);
+
+
         }
 
         @TypeConverter
-        public String toString(Location location) {
-            return location == null ? null : location.toString();
+        public String asString(UserLocation userLocation) {
+            return userLocation==null? "0 0":userLocation.getLat() + " " + userLocation.getLang();
         }
+
+
     }
+
 
 
 }
