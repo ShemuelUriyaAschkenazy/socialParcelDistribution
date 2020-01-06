@@ -4,6 +4,11 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,27 +21,31 @@ import java.util.List;
 
 public class HistoryParcelsActivity extends AppCompatActivity {
 
-    List<Parcel> parcelList;
-
+    private List<Parcel> parcelList=new ArrayList<>();
+private ParcelHistoryViewModel viewModel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_parcels);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        final RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        parcelList = new ArrayList<>();
-//        Parcel parcel;
-//        for (int i = 0; i < 80; i++) {
-//            parcel = new Parcel();
-//            parcel.setParcelId(i);
-//            parcel.setDeliveryDate(new Date(i, 1, 1));
-//            parcelList.add(parcel);
-//        }
         HistoryParcelsAdapter historyParcelsAdapter = new HistoryParcelsAdapter(parcelList);
         recyclerView.setAdapter(historyParcelsAdapter);
+
+
+        viewModel= ViewModelProviders.of(this).get(ParcelHistoryViewModel.class);
+        viewModel.getParcels().observe(this, new Observer<List<Parcel>>() {
+            @Override
+            public void onChanged(List<Parcel> parcels) {
+                parcelList=parcels;
+                recyclerView.setLayoutManager(new LinearLayoutManager(HistoryParcelsActivity.this));
+                HistoryParcelsAdapter historyParcelsAdapter = new HistoryParcelsAdapter(parcelList);
+                recyclerView.setAdapter(historyParcelsAdapter);
+            }
+        });
+
+
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.socialparceldistribution.Data;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -19,7 +20,7 @@ public interface ParcelDao {
     LiveData<List<Parcel>> getAll();
 
     @Query("select * from parcel where parcelId=:id")
-    LiveData<Parcel> get(int id);
+    LiveData<Parcel> get(String id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Parcel parcel);
@@ -32,4 +33,7 @@ public interface ParcelDao {
 
     @Delete
     void delete(Parcel... parcels);
+
+    @Query("delete from parcel")
+    void clear();
 }

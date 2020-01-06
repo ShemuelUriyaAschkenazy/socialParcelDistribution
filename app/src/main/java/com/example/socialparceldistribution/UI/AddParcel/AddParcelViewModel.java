@@ -38,7 +38,7 @@ public class AddParcelViewModel extends AndroidViewModel {
 
     public AddParcelViewModel(@NonNull Application application) {
         super(application);
-        parcelRepository = ParcelRepository.getInstance();
+        parcelRepository = ParcelRepository.getInstance(application);
         booleanMutableLiveData = new MutableLiveData<>();
         //booleanMutableLiveData.postValue(true);
     }

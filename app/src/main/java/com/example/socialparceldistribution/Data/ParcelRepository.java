@@ -1,6 +1,8 @@
 package com.example.socialparceldistribution.Data;
+import android.app.Application;
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.socialparceldistribution.Entities.Parcel;
 import com.example.socialparceldistribution.UI.MainActivity;
@@ -11,27 +13,28 @@ public class ParcelRepository {
 
     MutableLiveData<List<Parcel>> mutableLiveData= new MutableLiveData<>();
     ParcelDataSource parcelDataSource;
+    RoomDatabaseHelper databaseHelper;
 
-    private ParcelRepository(){
+    private ParcelRepository(Application application){
         parcelDataSource = ParcelDataSource.getInstance();
+        databaseHelper= new RoomDatabaseHelper(application.getApplicationContext());
         ParcelDataSource.changedListener changedListener= new ParcelDataSource.changedListener() {
             @Override
             public void change() {
                 List<Parcel> parcelList=parcelDataSource.getParcelsList();
                 mutableLiveData.setValue(parcelDataSource.getParcelsList());
+                databaseHelper.clearTable();
+                databaseHelper.addParcels(parcelList);
 
             }
         };
         parcelDataSource.setChangedListener(changedListener);
-
-
-
     }
 
     private static ParcelRepository instance;
-    public static ParcelRepository getInstance() {
+    public static ParcelRepository getInstance(Application application) {
         if (instance == null)
-            instance = new ParcelRepository();
+            instance = new ParcelRepository(application);
         return instance;
     }
 
@@ -43,5 +46,9 @@ public class ParcelRepository {
 
     public void addParcel(Context context, Parcel parcel) {
         parcelDataSource.addParcel(context,parcel);
+    }
+
+    public LiveData<List<Parcel>> getParcels() {
+        return databaseHelper.getParcels();
     }
 }

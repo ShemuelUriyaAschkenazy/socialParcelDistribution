@@ -58,9 +58,9 @@ public class ParcelDataSource {
                         Parcel parcel = snapshot.getValue(Parcel.class);
                         parcelsList.add(parcel);
                     }
-                    if (listener != null)
-                        listener.change();
                 }
+                if (listener != null)
+                    listener.change();
             }
 
             @Override
@@ -78,10 +78,13 @@ public class ParcelDataSource {
 
 
     public boolean addParcel(final Context context,Parcel p) {
-
-        parcels.child(p.getParcelId()+"").setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
+        String id= parcels.push().getKey();
+        p.setParcelId(id);
+        parcels.child(id).setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                if (listener!=null)
+                    listener.change();
                 Toast.makeText(context, "success", Toast.LENGTH_LONG).show();
 
             }
