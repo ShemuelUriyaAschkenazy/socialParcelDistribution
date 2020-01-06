@@ -79,62 +79,21 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
         radioButton_small = findViewById(R.id.rb_smallPackage);
         radioButton_fragile = findViewById(R.id.rb_Fragile);
         radioButton_noFragile = findViewById(R.id.rb_notFragile);
-
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location l) {
-                if (l != null)
-                    location = new UserLocation(l.getLatitude(), l.getLongitude());
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        };
-
-
     }
 
-
-    private String getPlace(Location location) {
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses = null;
-        try {
-            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            if (addresses.size() > 0) {
-                String cityName = addresses.get(0).getAddressLine(0);
-                String stateName = addresses.get(0).getAddressLine(1);
-                String countryName = addresses.get(0).getAddressLine(2);
-                return stateName + "\n" + cityName + "\n" + countryName;
-            }
-            return "no place: \n (" + location.getLongitude() + " , " + location.getLatitude() + ")";
-        } catch (
-                IOException e) {
-            e.printStackTrace();
-        }
-        return "IOException ...";
-    }
 
     private void getLocation() {
+        final int Location_PERMISSION = 1;
         // Check the SDK version and whether the permission is already granted or not.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 5);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Location_PERMISSION);
         } else {
 
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            Location l= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (l!=null)
+                location=new UserLocation(l.getLatitude(),l.getLongitude());
         }
     }
 
@@ -192,6 +151,7 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
                 default:
                     isFragile = null;
             }
+
             getLocation();
             parcel = new Parcel(
 //                    Math.toIntExact(System.currentTimeMillis()/1000000),
