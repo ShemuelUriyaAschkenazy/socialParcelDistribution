@@ -1,5 +1,3 @@
-import org.w3c.dom.DOMImplementation
-
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 

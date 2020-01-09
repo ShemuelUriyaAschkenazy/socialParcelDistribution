@@ -7,6 +7,8 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -232,14 +234,15 @@ public class Parcel {
     private Integer messengerId;
 
     public static class DateConverter {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         @TypeConverter
-        public Date fromTimestamp(Long value) {
-            return value == null ? null : new Date(value);
+        public Date fromTimestamp(String date) throws ParseException {
+            return (date == null ? null : format.parse ( date ));
         }
 
         @TypeConverter
-        public Long dateToTimestamp(Date date) {
-            return date == null ? null : date.getTime();
+        public String dateToTimestamp(Date date) {
+            return date == null ? null : format.format(date);
         }
     }
 

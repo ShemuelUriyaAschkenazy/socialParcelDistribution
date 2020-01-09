@@ -11,23 +11,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.socialparceldistribution.Entities.Parcel;
 import com.example.socialparceldistribution.R;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class HistoryParcelsAdapter extends RecyclerView.Adapter<HistoryParcelsAdapter.HistoryParcelViewHolder> {
 
     private List<Parcel> parcels;
+    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
     public HistoryParcelsAdapter(List<Parcel> parcels) {
         this.parcels = parcels;
     }
     public class HistoryParcelViewHolder extends RecyclerView.ViewHolder{
-        TextView parcelId;
 
-        TextView deliveryDate;
+        TextView status;
+        TextView recipientName;
+        TextView parcelType;
+        TextView address;
+        TextView date;
+        TextView messengerName;
 
         public HistoryParcelViewHolder(View itemView) {
             super(itemView);
-            parcelId = itemView.findViewById(R.id.parcelId);
-            deliveryDate = itemView.findViewById(R.id.date);
+
+            status=itemView.findViewById(R.id.status_tv);
+            recipientName=itemView.findViewById(R.id.recipient_name_tv);
+            parcelType=itemView.findViewById(R.id.type_tv);
+            address=itemView.findViewById(R.id.address_tv);
+            date=itemView.findViewById(R.id.date_tv);
+            messengerName=itemView.findViewById(R.id.messenger_name_tv);
         }
     }
     @NonNull
@@ -41,8 +52,12 @@ public class HistoryParcelsAdapter extends RecyclerView.Adapter<HistoryParcelsAd
     @Override
     public void onBindViewHolder(@NonNull HistoryParcelViewHolder holder, int position) {
         Parcel parcel = parcels.get(position);
-        holder.parcelId.setText(parcel.getParcelId()+"");
-        holder.deliveryDate.setText(parcel.getDeliveryDate().toString());
+        holder.messengerName.setText(parcel.getMessengerName()+"");
+        holder.date.setText(parcel.getDeliveryDate()==null? "no date":format.format(parcel.getDeliveryDate()));
+        holder.address.setText(parcel.getAddress());
+        holder.recipientName.setText(parcel.getRecipientName());
+        holder.parcelType.setText(parcel.getParcelType()==null?"no type":parcel.getParcelType().toString());
+        holder.status.setText(parcel.getParcelStatus()==null?"no status":parcel.getParcelStatus().toString());
     }
 
     @Override
