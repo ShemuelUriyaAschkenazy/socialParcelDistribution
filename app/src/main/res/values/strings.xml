@@ -20,4 +20,5 @@
     <string name="phone">phone</string>
     <string name="address">address</string>
     <string name="mail">mail</string>
+    <string name="no_type_exist">parcel type- unknown</string>
 </resources>
