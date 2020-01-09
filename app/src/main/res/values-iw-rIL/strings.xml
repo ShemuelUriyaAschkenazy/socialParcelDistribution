@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">החבילה עוברת</string>
+    <string name="parcel_type">סוג החבילה</string>
+    <string name="envelope">מעטפה</string>
+    <string name="small_package">small package</string>
+    <string name="big_package">big package</string>
+    <string name="weight_in_grams">משקל בגרמים</string>
+    <string name="for_auto_calculation_leave_empty">מיקום. השאר ריק למיקום אוטומטי</string>
+    <string name="phone">טלפון</string>
+    <string name="no">לא</string>
+    <string name="yes">כן</string>
+    <string name="location">מיקום</string>
+    <string name="recipient_address">כתובת נמען</string>
+    <string name="recipient_details">פרטי הנמען:</string>
+    <string name="fragility">שביר</string>
+    <string name="add">הוסף</string>
+    <string name="address">כתובת</string>
+    <string name="id">מספר זהות</string>
+    <string name="mail">מייל</string>
+    <string name="messenger_details">פרטי השליח:</string>
+    <string name="name">שם</string>
+    <string name="pick_up_suggested">הוצע לאסוף את החבילה</string>
+</resources>

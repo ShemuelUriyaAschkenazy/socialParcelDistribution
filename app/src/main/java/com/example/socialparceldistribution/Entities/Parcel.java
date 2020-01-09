@@ -246,8 +246,8 @@ public class Parcel {
     public static class LocationConverter {
         @TypeConverter
         public UserLocation fromString(String value) {
-            Double lat= Double.parseDouble(value.split("")[0]);
-            Double lang = Double.parseDouble(value.split("")[1]);
+            Double lat= Double.parseDouble(value.split(" ")[0]);
+            Double lang = Double.parseDouble(value.split(" ")[1]);
             return new UserLocation(lat,lang);
 
 

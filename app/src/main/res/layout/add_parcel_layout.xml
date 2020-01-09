@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -12,48 +13,55 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="30dp">
+            android:layout_margin="30dp"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="parcel type"
-                android:textSize="18sp" />
+            android:gravity="start"
+            android:orientation="vertical"
+            android:paddingBottom="30dp"
+            android:divider="?android:dividerHorizontal"
+            android:showDividers="middle">
+
+
 
             <RadioGroup
                 android:id="@+id/rg_parcelType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp">
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/parcel_type"
+                    android:textSize="18sp" />
                 <RadioButton
                     android:id="@+id/rb_envelope"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="envelope" />
+                    android:text="@string/envelope" />
 
                 <RadioButton
                     android:id="@+id/rb_smallPackage"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="small package" />
+                    android:text="@string/small_package" />
 
                 <RadioButton
                     android:id="@+id/rb_bigPackage"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="big package" />
+                    android:text="@string/big_package" />
             </RadioGroup>
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="fragility"
+                android:layout_gravity="center"
+                android:text="@string/fragility"
                 android:textSize="18sp" />
 
             <RadioGroup
@@ -67,103 +75,118 @@
                     android:id="@+id/rb_Fragile"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="yes" />
+                    android:text="@string/yes" />
 
                 <RadioButton
                     android:id="@+id/rb_notFragile"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="no" />
+                    android:text="@string/no" />
 
             </RadioGroup>
-
-            <TextView
+        </LinearLayout>
+            <!--TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:inputType="number"
-                android:text="weight"
-                android:textSize="18sp" />
+                android:text="@string/weight"
+                android:textSize="18sp" /!-->
 
             <EditText
                 android:id="@+id/et_weight"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:inputType="numberDecimal"
-                android:hint="enter weight in kilograms" />
+                android:padding="5dp"
+                android:hint="@string/weight_in_grams"
+                android:background="@android:color/transparent"/>
 
-            <TextView
+            <!--TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="location"
-                android:textSize="18sp" />
+                android:text="@string/location"
+                android:textSize="18sp" /!-->
 
             <EditText
                 android:id="@+id/et_location"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_marginStart="4dp"
-                android:hint="for auto-calculation leave empty" />
+                android:hint="@string/for_auto_calculation_leave_empty"
+                android:background="@android:color/transparent"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_marginTop="10dp"
-                android:text="recipient name"
+                android:text="@string/recipient_details"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/et_recipient_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:padding="5dp"
+                android:hint="@string/name"
                 android:layout_marginStart="4dp"
-                android:hint="enter recipient name" />
+                android:background="@android:color/transparent"/>
 
-            <TextView
+            <!--TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="c"
-                android:textSize="18sp" />
+                android:text="@string/recipient_phone"
+                android:textSize="18sp" /!-->
 
             <EditText
                 android:id="@+id/et_recipient_phone"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:hint="@string/phone"
                 android:layout_marginStart="4dp"
-                android:hint="enter recipient phone"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:background="@android:color/transparent"/>
 
-            <TextView
+            <!--TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="recipient address"
-                android:textSize="18sp" />
+                android:text="@string/recipient_address"
+                android:textSize="18sp" /!-->
 
             <EditText
                 android:id="@+id/et_recipient_address"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:hint="@string/address"
                 android:layout_marginStart="4dp"
-                android:hint="enter recipient address" />
+                android:background="@android:color/transparent"/>
 
-            <TextView
+
+            <!--TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="recipient email"
-                android:textSize="18sp" />
+                android:text="@string/recipient_email"
+                android:textSize="18sp" /!-->
 
             <EditText
                 android:id="@+id/et_recipient_email"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_marginStart="4dp"
-                android:hint="enter recipient email"
-                android:inputType="textEmailAddress" />
+                android:hint="@string/mail"
+                android:inputType="textEmailAddress"
+                android:background="@android:color/transparent"/>
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -173,7 +196,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="pick up suggested"
+                    android:text="@string/pick_up_suggested"
                     android:textSize="18sp" />
 
                 <Switch
@@ -188,8 +211,10 @@
                 android:id="@+id/lo_messenger_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:gravity="start"
+                android:orientation="vertical"
+                android:divider="?android:dividerHorizontal"
+                android:showDividers="middle">
 
                 <View
                     android:layout_width="match_parent"
@@ -200,31 +225,36 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="messenger name"
+                    android:text="@string/messenger_details"
                     android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/et_messenger_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="5dp"
                     android:layout_marginStart="4dp"
-                    android:hint="enter messenger name" />
+                    android:hint="@string/name"
+                    android:background="@android:color/transparent"/>
 
-                <TextView
+                <!--TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="messenger id"
-                    android:textSize="18sp" />
+                    android:textSize="18sp" /!-->
 
                 <EditText
                     android:id="@+id/et_messenger_id"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="5dp"
                     android:layout_marginStart="4dp"
                     android:inputType="number"
-                    android:hint="enter messenger id" />
+                    android:hint="@string/id"
+                    android:background="@android:color/transparent"/>
             </LinearLayout>
 
 
@@ -234,7 +264,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="add parcel"
+                android:text="@string/add"
                 android:textSize="20sp" />
 
         </LinearLayout>
