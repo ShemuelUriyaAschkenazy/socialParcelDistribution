@@ -28,6 +28,5 @@ public class ParcelHistoryViewModel extends AndroidViewModel {
 
     public LiveData<List<Parcel>> getParcels() {
         return database.getParcels();
-
     }
 }

@@ -1,15 +1,19 @@
 package com.example.socialparceldistribution.Entities;
 
 import androidx.annotation.NonNull;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
+import com.google.firebase.database.Exclude;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 @Entity
 public class Parcel {
@@ -18,22 +22,6 @@ public class Parcel {
     public Parcel() {
     }
 
-    public Parcel(ParcelType parcelType, ParcelStatus parcelStatus, Boolean isFragile, Double weight, UserLocation location, String recipientName, String address, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail, String messengerName, Integer messengerId) {
-        this.parcelId = "aaa";
-        this.parcelType = parcelType;
-        this.parcelStatus = parcelStatus;
-        this.isFragile = isFragile;
-        this.weight = weight;
-        this.userLocation = location;
-        this.recipientName = recipientName;
-        this.address = address;
-        this.deliveryDate = deliveryDate;
-        this.arrivalDate = arrivalDate;
-        this.recipientPhone = recipientPhone;
-        this.recipientEmail = recipientEmail;
-        this.messengerName = messengerName;
-        this.messengerId = messengerId;
-    }
 
     @NonNull
     public String getParcelId() {
@@ -125,9 +113,6 @@ public class Parcel {
         this.recipientEmail = recipientEmail;
     }
 
-    public String getMessengerName() {
-        return messengerName;
-    }
 
     public UserLocation getUserLocation() {
         return userLocation;
@@ -137,17 +122,6 @@ public class Parcel {
         this.userLocation = userLocation;
     }
 
-    public void setMessengerName(String messengerName) {
-        this.messengerName = messengerName;
-    }
-
-    public Integer getMessengerId() {
-        return messengerId;
-    }
-
-    public void setMessengerId(Integer messengerId) {
-        this.messengerId = messengerId;
-    }
 
     public enum ParcelType {
         envelope(0), smallPackage(1), bigPackage(2);
@@ -202,6 +176,16 @@ public class Parcel {
         }
     }
 
+    @Exclude
+    public HashMap<Person, Boolean> getMessengers() {
+        return messengers;
+    }
+
+    @Exclude
+    public void setMessengers(HashMap<Person, Boolean> messengers) {
+        this.messengers = messengers;
+    }
+
     public ParcelStatus getParcelStatus() {
         return parcelStatus;
     }
@@ -209,6 +193,7 @@ public class Parcel {
     public void setParcelStatus(ParcelStatus parcelStatus) {
         this.parcelStatus = parcelStatus;
     }
+
 
     @NonNull
     @PrimaryKey
@@ -222,6 +207,22 @@ public class Parcel {
     private Double weight;
     @TypeConverters(LocationConverter.class)
     private UserLocation userLocation;
+
+    public Parcel(ParcelType parcelType, ParcelStatus parcelStatus, Boolean isFragile, Double weight, UserLocation userLocation, String recipientName, String address, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail) {
+        this.parcelType = parcelType;
+        this.parcelStatus = parcelStatus;
+        this.isFragile = isFragile;
+        this.weight = weight;
+        this.userLocation = userLocation;
+        this.recipientName = recipientName;
+        this.address = address;
+        this.deliveryDate = deliveryDate;
+        this.arrivalDate = arrivalDate;
+        this.recipientPhone = recipientPhone;
+        this.recipientEmail = recipientEmail;
+        this.messengers = new HashMap<>();
+    }
+
     private String recipientName;
     private String address;
     @TypeConverters(DateConverter.class)
@@ -230,8 +231,9 @@ public class Parcel {
     private Date arrivalDate;
     private String recipientPhone;
     private String recipientEmail;
-    private String messengerName;
-    private Integer messengerId;
+    @Exclude
+    @Ignore
+    private HashMap<Person, Boolean> messengers;
 
     public static class DateConverter {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

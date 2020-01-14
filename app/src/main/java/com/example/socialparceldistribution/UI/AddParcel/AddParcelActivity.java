@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.socialparceldistribution.Entities.Parcel;
@@ -38,8 +39,8 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
     // Define a listener that responds to location updates
     LocationListener locationListener;
     UserLocation location;
-    EditText etWeight, etLocation, etRecipient_name, etRecipient_phone, etRecipient_address, etRecipient_email,
-            etMessenger_name, etMessenger_id;
+    EditText etWeight, etLocation, etRecipient_name, etRecipient_phone, etRecipient_address, etRecipient_email;
+
     Button btAddParcel;
     RadioButton radioButton_envelope, radioButton_big, radioButton_small, radioButton_fragile, radioButton_noFragile;
     Parcel parcel;
@@ -50,19 +51,13 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
         setContentView(R.layout.add_parcel_layout);
 
         addParcelViewModel = ViewModelProviders.of(this).get(AddParcelViewModel.class);
-        findViewById(R.id.btn_addParcel).setOnClickListener(this);
-        final LinearLayout messengerDetailsLO = findViewById(R.id.lo_messenger_details);
-        messengerDetailsLO.setVisibility(View.GONE);
-        Switch pickUpSuggested = findViewById(R.id.swPickUp);
-        pickUpSuggested.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        addParcelViewModel.getIsSuccess().observe(this, new Observer<Boolean>() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                    messengerDetailsLO.setVisibility(View.VISIBLE);
-                else
-                    messengerDetailsLO.setVisibility(View.GONE);
+            public void onChanged(Boolean aBoolean) {
+                Toast.makeText(AddParcelActivity.this,addParcelViewModel.getIsSuccess().getValue()==true?"success":"failure",Toast.LENGTH_LONG).show();
             }
         });
+        findViewById(R.id.btn_addParcel).setOnClickListener(this);
 
         radioGroup_type = findViewById(R.id.rg_parcelType);
         radioGroup_fragility = findViewById(R.id.rg_fragility);
@@ -115,7 +110,7 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     @Override
     public void onClick(View v) {
         // Parcel.ParcelType parcelType;
@@ -160,10 +155,7 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
                     new Date(),
                     null,
                     ((EditText) findViewById(R.id.et_recipient_phone)).getText().toString(),
-                    ((EditText) findViewById(R.id.et_recipient_email)).getText().toString(),
-                    ((EditText) findViewById(R.id.et_messenger_name)).getText().toString(),
-                    ((EditText) findViewById(R.id.et_messenger_id)).getText().toString().equals("") ? null :
-                            Integer.parseInt(((EditText) findViewById(R.id.et_messenger_id)).getText().toString()));
+                    ((EditText) findViewById(R.id.et_recipient_email)).getText().toString());
 
             //    public Parcel(int parcelId, ParcelType parcelType, Boolean isFragile, Double weight,
 //    Location location, String recipientName, String address, Date deliveryDate, Date arrivalDate,
