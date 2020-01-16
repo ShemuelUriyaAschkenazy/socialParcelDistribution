@@ -7,6 +7,7 @@ import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -47,6 +48,12 @@ public class AddParcelViewModel extends AndroidViewModel {
     public void addParcel(Parcel parcel){
         parcelRepository.addParcel(getApplication().getApplicationContext(),parcel);
     }
+
+    public LiveData<Boolean> getIsSuccess(){
+        return parcelRepository.getIsSuccess();
+    }
+
+
 
     
 }

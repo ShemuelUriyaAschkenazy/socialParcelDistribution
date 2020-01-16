@@ -33,7 +33,6 @@ private ParcelHistoryViewModel viewModel;
         HistoryParcelsAdapter historyParcelsAdapter = new HistoryParcelsAdapter(parcelList);
         recyclerView.setAdapter(historyParcelsAdapter);
 
-
         viewModel= ViewModelProviders.of(this).get(ParcelHistoryViewModel.class);
         viewModel.getParcels().observe(this, new Observer<List<Parcel>>() {
             @Override
@@ -44,9 +43,5 @@ private ParcelHistoryViewModel viewModel;
                 recyclerView.setAdapter(historyParcelsAdapter);
             }
         });
-
-
     }
-
-
 }

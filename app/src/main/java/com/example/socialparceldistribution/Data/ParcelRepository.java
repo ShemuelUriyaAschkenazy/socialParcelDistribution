@@ -45,10 +45,14 @@ public class ParcelRepository {
 
 
     public void addParcel(Context context, Parcel parcel) {
-        parcelDataSource.addParcel(context,parcel);
+        parcelDataSource.addParcel(parcel);
     }
 
     public LiveData<List<Parcel>> getParcels() {
         return databaseHelper.getParcels();
+    }
+
+    public LiveData<Boolean> getIsSuccess(){
+        return parcelDataSource.getIsSuccess();
     }
 }

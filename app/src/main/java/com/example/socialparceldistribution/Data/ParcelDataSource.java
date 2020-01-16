@@ -22,14 +22,18 @@ import java.util.List;
 
 public class ParcelDataSource {
 
-    // MutableLiveData<Boolean> booleanMutableLiveData;
+    public MutableLiveData<Boolean> getIsSuccess() {
+        return isSuccess;
+    }
+
+    private MutableLiveData<Boolean> isSuccess= new MutableLiveData<>();
 
 
     public interface changedListener {
         void change();
     }
 
-    changedListener listener;
+    private changedListener listener;
 
     public void setChangedListener(changedListener l) {
         listener = l;
@@ -78,22 +82,20 @@ public class ParcelDataSource {
     }
 
 
-    public boolean addParcel(final Context context, Parcel p) {
+    public boolean addParcel(Parcel p) {
         String id = parcels.push().getKey();
         p.setParcelId(id);
         parcels.child(id).setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(context, "success", Toast.LENGTH_LONG).show();
-
+                isSuccess.setValue(true);
             }
 
 
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "failure", Toast.LENGTH_LONG).show();
-
+                isSuccess.setValue(false);
             }
         });
         return false;//todo
