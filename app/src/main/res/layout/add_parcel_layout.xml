@@ -14,11 +14,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
-            android:divider="?android:dividerHorizontal"
             android:orientation="vertical"
             android:paddingBottom="30dp"
             android:showDividers="middle"
             >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/parcel_type"
+                android:textSize="18sp"
+                />
 
             <RadioGroup
                 android:visibility="visible"
@@ -26,14 +33,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/parcel_type"
-                    android:textSize="18sp"
-                    />
 
                 <RadioButton
                     android:id="@+id/rb_envelope"
@@ -56,10 +55,18 @@
                     android:text="@string/big_package" />
             </RadioGroup>
 
+            <Spinner
+                android:id="@+id/spinner_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+            </Spinner>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
+                android:paddingTop="20dp"
                 android:paddingStart="5dp">
 
                 <TextView
@@ -97,25 +104,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:background="@android:color/transparent"
+                android:paddingBottom="16dp"
                 android:hint="@string/weight_in_grams"
                 android:inputType="numberDecimal"
-                android:paddingTop="12dp" />
+                android:textSize="15sp"
+                android:layout_marginTop="20dp"/>
 
             <EditText
                 android:id="@+id/et_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:background="@android:color/transparent"
+                android:paddingBottom="16dp"
                 android:hint="@string/for_auto_calculation_leave_empty"
-                android:paddingTop="12dp" />
+                android:layout_marginTop="20dp"
+                android:textSize="15sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:padding="5dp"
+                android:layout_marginTop="15dp"
+                android:paddingStart="5dp"
                 android:text="@string/recipient_details"
                 android:textSize="18sp"
                 />
@@ -123,11 +132,12 @@
             <EditText
                 android:id="@+id/et_recipient_name"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:background="@android:color/transparent"
+                android:paddingBottom="16dp"
+                android:textSize="15sp"
+                android:paddingTop="5dp"
                 android:hint="@string/name"
-                android:padding="5dp"
                 />
 
             <EditText
@@ -135,11 +145,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:background="@android:color/transparent"
+                android:paddingBottom="16dp"
+                android:textSize="15sp"
                 android:hint="@string/phone"
-                android:inputType="number"
-
-                android:padding="5dp" />
+                android:layout_marginTop="20dp"
+                android:inputType="number" />
 
 
             <EditText
@@ -147,9 +157,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:background="@android:color/transparent"
+                android:paddingBottom="16dp"
+                android:textSize="15sp"
+                android:layout_marginTop="20dp"
                 android:hint="@string/address"
-                android:padding="5dp" />
+                />
 
 
             <!--TextView
@@ -164,10 +176,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:background="@android:color/transparent"
+                android:paddingBottom="16dp"
+                android:textSize="15sp"
+                android:layout_marginTop="20dp"
                 android:hint="@string/mail"
                 android:inputType="textEmailAddress"
-                android:padding="5dp" />
+                />
 
             <Button
                 android:id="@+id/btn_addParcel"

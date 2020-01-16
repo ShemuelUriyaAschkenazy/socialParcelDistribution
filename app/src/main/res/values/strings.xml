@@ -3,7 +3,6 @@
     <string name="parcel_type">parcel type</string>
     <string name="envelope">envelope</string>
     <string name="small_package">small package</string>
-    <string name="big_package">big package</string>
     <string name="fragility">fragility</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
@@ -13,7 +12,7 @@
     <string name="recipient_details">recipient details:</string>
     <string name="recipient_address">recipient address</string>
     <string name="pick_up_suggested">pick up suggested</string>
-    <string name="messenger_details">messenger details:</string>
+    <string name="messenger_details">messenger details</string>
     <string name="name">name</string>
     <string name="id">id</string>
     <string name="add">add</string>
@@ -21,4 +20,12 @@
     <string name="address">address</string>
     <string name="mail">mail</string>
     <string name="no_type_exist">parcel type- unknown</string>
+    <string name="big_package">big package</string>
+
+        <string-array name="parcelType">
+            <item name="envelope">envelope</item>
+            <item name="small_package">small_package</item>
+            <item name="big_package">big_package</item>
+        </string-array>
+
 </resources>

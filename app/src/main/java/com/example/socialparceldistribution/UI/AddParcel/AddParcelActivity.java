@@ -9,12 +9,14 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
     // Define a listener that responds to location updates
     LocationListener locationListener;
     UserLocation location;
+    Spinner spinner_type;
     EditText etWeight, etLocation, etRecipient_name, etRecipient_phone, etRecipient_address, etRecipient_email;
 
     Button btAddParcel;
@@ -61,6 +64,14 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
 
         radioGroup_type = findViewById(R.id.rg_parcelType);
         radioGroup_fragility = findViewById(R.id.rg_fragility);
+        spinner_type=findViewById(R.id.spinner_type);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.parcelType, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinner_type.setAdapter(adapter);
 //        radioGroup_type.setOnCheckedChangeListener(this);
 //        radioGroup_fragility.setOnCheckedChangeListener(this);
 
@@ -117,8 +128,8 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
         if (v.getId() == R.id.btn_addParcel) {
             Parcel.ParcelType parcelType;
             Boolean isFragile;
-            switch (radioGroup_type.getCheckedRadioButtonId()) {
-                case R.id.rb_envelope:
+            switch (spinner_type.getSelectedItem().toString()) {
+                case R:
                     parcelType = Parcel.ParcelType.envelope;
                     break;
                 case R.id.rb_bigPackage:
