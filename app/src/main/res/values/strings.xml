@@ -4,8 +4,8 @@
     <string name="envelope">envelope</string>
     <string name="small_package">small package</string>
     <string name="fragility">fragility</string>
-    <string name="yes">yes</string>
-    <string name="no">no</string>
+    <string name="fragile">fragile</string>
+    <string name="not_fragile">not_fragile</string>
     <string name="weight_in_grams">weight in grams</string>
     <string name="location">location</string>
     <string name="for_auto_calculation_leave_empty">location. for auto-calculation leave empty</string>
@@ -22,10 +22,16 @@
     <string name="no_type_exist">parcel type- unknown</string>
     <string name="big_package">big package</string>
 
+
         <string-array name="parcelType">
-            <item name="envelope">envelope</item>
-            <item name="small_package">small_package</item>
-            <item name="big_package">big_package</item>
+            <item>@string/envelope</item>
+            <item>@string/small_package</item>
+            <item>@string/big_package</item>
         </string-array>
+
+    <string-array name="isFragile">
+        <item>@string/fragile</item>
+        <item>@string/not_fragile</item>
+    </string-array>
 
 </resources>

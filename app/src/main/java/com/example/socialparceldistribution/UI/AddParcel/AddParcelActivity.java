@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -32,7 +33,7 @@ import com.example.socialparceldistribution.R;
 
 import java.util.Date;
 
-public class AddParcelActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+public class AddParcelActivity extends AppCompatActivity implements View.OnClickListener {
 
     AddParcelViewModel addParcelViewModel;
     RadioGroup radioGroup_type, radioGroup_fragility;
@@ -42,6 +43,8 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
     LocationListener locationListener;
     UserLocation location;
     Spinner spinner_type;
+    Spinner spinner_isFragile;
+
     EditText etWeight, etLocation, etRecipient_name, etRecipient_phone, etRecipient_address, etRecipient_email;
 
     Button btAddParcel;
@@ -57,29 +60,24 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
         addParcelViewModel.getIsSuccess().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                Toast.makeText(AddParcelActivity.this,addParcelViewModel.getIsSuccess().getValue()==true?"success":"failure",Toast.LENGTH_LONG).show();
+                Toast.makeText(AddParcelActivity.this, addParcelViewModel.getIsSuccess().getValue() == true ? "success" : "failure", Toast.LENGTH_LONG).show();
             }
         });
         findViewById(R.id.btn_addParcel).setOnClickListener(this);
 
-        radioGroup_type = findViewById(R.id.rg_parcelType);
-        radioGroup_fragility = findViewById(R.id.rg_fragility);
-        spinner_type=findViewById(R.id.spinner_type);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.parcelType, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner_type.setAdapter(adapter);
-//        radioGroup_type.setOnCheckedChangeListener(this);
-//        radioGroup_fragility.setOnCheckedChangeListener(this);
+        spinner_type = findViewById(R.id.spinner_type);
+        spinner_isFragile = findViewById(R.id.isFragile_spinner);
 
-        radioButton_envelope = findViewById(R.id.rb_envelope);
-        radioButton_big = findViewById(R.id.rb_bigPackage);
-        radioButton_small = findViewById(R.id.rb_smallPackage);
-        radioButton_fragile = findViewById(R.id.rb_Fragile);
-        radioButton_noFragile = findViewById(R.id.rb_notFragile);
+
+        //spinner_type.setAdapter(new ArrayAdapter<Parcel.ParcelType>(this, android.R.layout.simple_spinner_item, Parcel.ParcelType.values()));
+
+        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this, R.array.parcelType, R.layout.custom_spinner_item);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_type.setAdapter(typeAdapter);
+
+        ArrayAdapter<CharSequence> isFragileAdapter = ArrayAdapter.createFromResource(this, R.array.isFragile, R.layout.custom_spinner_item);
+        isFragileAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_isFragile.setAdapter(isFragileAdapter);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     }
 
@@ -92,9 +90,9 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Location_PERMISSION);
         } else {
 
-            Location l= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (l!=null)
-                location=new UserLocation(l.getLatitude(),l.getLongitude());
+            Location l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (l != null)
+                location = new UserLocation(l.getLatitude(), l.getLongitude());
         }
     }
 
@@ -111,52 +109,40 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
         }
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-        if (group.getId() == R.id.rg_parcelType) {
-
-        } else if (group.getId() == R.id.rg_fragility) {
-
-        }
-    }
-
-
 
     @Override
     public void onClick(View v) {
         // Parcel.ParcelType parcelType;
         if (v.getId() == R.id.btn_addParcel) {
             Parcel.ParcelType parcelType;
-            Boolean isFragile;
-            switch (spinner_type.getSelectedItem().toString()) {
-                case R:
+            Boolean isFragile= false;
+            switch (spinner_type.getSelectedItemPosition()) {
+                case 0:
                     parcelType = Parcel.ParcelType.envelope;
                     break;
-                case R.id.rb_bigPackage:
+                case 1:
                     parcelType = Parcel.ParcelType.bigPackage;
                     break;
-                case R.id.rb_smallPackage:
+                case 2:
                     parcelType = Parcel.ParcelType.smallPackage;
                     break;
                 default:
                     parcelType = null;
-
             }
-            switch (radioGroup_fragility.getCheckedRadioButtonId()) {
-                case R.id.rb_Fragile:
+
+            switch (spinner_isFragile.getSelectedItemPosition()) {
+                case 0:
                     isFragile = true;
                     break;
-                case R.id.rb_notFragile:
+                case 1:
                     isFragile = false;
                     break;
-                default:
-                    isFragile = null;
             }
 
             getLocation();
             parcel = new Parcel(
 //                    Math.toIntExact(System.currentTimeMillis()/1000000),
-                    null, null,
+                    parcelType, null,
                     isFragile,
                     ((EditText) findViewById(R.id.et_weight)).getText().toString().equals("") ? null :
                             Double.parseDouble(((EditText) findViewById(R.id.et_weight)).getText().toString()),
@@ -175,4 +161,7 @@ public class AddParcelActivity extends AppCompatActivity implements RadioGroup.O
             finish();
         }
     }
+
+
 }
+
