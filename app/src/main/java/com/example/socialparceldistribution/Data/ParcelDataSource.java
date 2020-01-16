@@ -1,14 +1,9 @@
 package com.example.socialparceldistribution.Data;
 
-import android.content.Context;
-import android.net.sip.SipSession;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.socialparceldistribution.Entities.Parcel;
-import com.example.socialparceldistribution.UI.MainActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -22,11 +17,11 @@ import java.util.List;
 
 public class ParcelDataSource {
 
+
+    private MutableLiveData<Boolean> isSuccess= new MutableLiveData<>();
     public MutableLiveData<Boolean> getIsSuccess() {
         return isSuccess;
     }
-
-    private MutableLiveData<Boolean> isSuccess= new MutableLiveData<>();
 
 
     public interface changedListener {
@@ -82,7 +77,7 @@ public class ParcelDataSource {
     }
 
 
-    public boolean addParcel(Parcel p) {
+    public void addParcel(Parcel p) {
         String id = parcels.push().getKey();
         p.setParcelId(id);
         parcels.child(id).setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -98,7 +93,6 @@ public class ParcelDataSource {
                 isSuccess.setValue(false);
             }
         });
-        return false;//todo
     }
 }
 

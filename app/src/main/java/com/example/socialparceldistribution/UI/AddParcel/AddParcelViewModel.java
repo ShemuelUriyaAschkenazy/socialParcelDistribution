@@ -8,8 +8,6 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.socialparceldistribution.Data.ParcelRepository;
 import com.example.socialparceldistribution.Entities.Parcel;
@@ -18,7 +16,7 @@ import java.util.Date;
 
 public class AddParcelViewModel extends AndroidViewModel {
     ParcelRepository parcelRepository;
-    MutableLiveData<Boolean> booleanMutableLiveData;
+    //MutableLiveData<Boolean> booleanMutableLiveData;
     RadioGroup radioGroup_type, radioGroup_fragility;
     EditText etWeight, etLocation, etRecipient_name, etRecipient_phone, etRecipient_address, etRecipient_email,
             etMessenger_name, etMessenger_id;
@@ -40,13 +38,13 @@ public class AddParcelViewModel extends AndroidViewModel {
     public AddParcelViewModel(@NonNull Application application) {
         super(application);
         parcelRepository = ParcelRepository.getInstance(application);
-        booleanMutableLiveData = new MutableLiveData<>();
+        //booleanMutableLiveData = new MutableLiveData<>();
         //booleanMutableLiveData.postValue(true);
     }
 
 
     public void addParcel(Parcel parcel){
-        parcelRepository.addParcel(getApplication().getApplicationContext(),parcel);
+        parcelRepository.addParcel(parcel);
     }
 
     public LiveData<Boolean> getIsSuccess(){

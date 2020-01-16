@@ -1,11 +1,10 @@
 package com.example.socialparceldistribution.Data;
 import android.app.Application;
-import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import com.example.socialparceldistribution.Entities.Parcel;
-import com.example.socialparceldistribution.UI.MainActivity;
 
 import java.util.List;
 
@@ -38,13 +37,13 @@ public class ParcelRepository {
         return instance;
     }
 
-    public MutableLiveData<Boolean> getStatus(){
-        //todo
-        return new MutableLiveData<Boolean>();
-    }
+//    public MutableLiveData<Boolean> getStatus(){
+//        //todo
+//        return new MutableLiveData<Boolean>();
+//    }
 
 
-    public void addParcel(Context context, Parcel parcel) {
+    public void addParcel(Parcel parcel) {
         parcelDataSource.addParcel(parcel);
     }
 
