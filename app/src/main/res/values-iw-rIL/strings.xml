@@ -3,8 +3,8 @@
     <string name="app_name">החבילה עוברת</string>
     <string name="parcel_type">סוג החבילה</string>
     <string name="envelope">מעטפה</string>
-    <string name="small_package">small package</string>
-    <string name="big_package">big package</string>
+    <string name="small_package">חבילה קטנה</string>
+    <string name="big_package">חבילה גדולה</string>
     <string name="weight_in_grams">משקל בגרמים</string>
     <string name="for_auto_calculation_leave_empty">מיקום. השאר ריק למיקום אוטומטי</string>
     <string name="phone">טלפון</string>
