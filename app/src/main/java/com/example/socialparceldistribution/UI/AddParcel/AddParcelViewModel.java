@@ -3,15 +3,11 @@ package com.example.socialparceldistribution.UI.AddParcel;
 import android.app.Application;
 import android.location.Location;
 import android.widget.EditText;
-import android.widget.RadioGroup;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-
 import com.example.socialparceldistribution.Data.ParcelRepository;
 import com.example.socialparceldistribution.Entities.Parcel;
-
 import java.util.Date;
 
 public class AddParcelViewModel extends AndroidViewModel {
@@ -38,16 +34,11 @@ public class AddParcelViewModel extends AndroidViewModel {
         parcelRepository = ParcelRepository.getInstance(application);
     }
 
-
-    public void addParcel(Parcel parcel){
+    void addParcel(Parcel parcel){
         parcelRepository.addParcel(parcel);
     }
 
-    public LiveData<Boolean> getIsSuccess(){
+    LiveData<Boolean> getIsSuccess(){
         return parcelRepository.getIsSuccess();
     }
-
-
-
-    
 }
