@@ -18,11 +18,11 @@ import java.util.Locale;
 public class HistoryParcelsAdapter extends RecyclerView.Adapter<HistoryParcelsAdapter.HistoryParcelViewHolder> {
 
     private List<Parcel> parcels;
-    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-    public HistoryParcelsAdapter(List<Parcel> parcels) {
+    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+    HistoryParcelsAdapter(List<Parcel> parcels) {
         this.parcels = parcels;
     }
-    public class HistoryParcelViewHolder extends RecyclerView.ViewHolder{
+    class HistoryParcelViewHolder extends RecyclerView.ViewHolder{
 
         TextView status;
         TextView recipientName;
