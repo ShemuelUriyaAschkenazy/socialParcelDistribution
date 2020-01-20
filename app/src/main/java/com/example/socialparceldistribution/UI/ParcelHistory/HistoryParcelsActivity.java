@@ -4,25 +4,18 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.socialparceldistribution.Entities.Parcel;
 import com.example.socialparceldistribution.R;
-
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryParcelsActivity extends AppCompatActivity {
 
     private List<Parcel> parcelList=new ArrayList<>();
-private ParcelHistoryViewModel viewModel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +26,7 @@ private ParcelHistoryViewModel viewModel;
         HistoryParcelsAdapter historyParcelsAdapter = new HistoryParcelsAdapter(parcelList);
         recyclerView.setAdapter(historyParcelsAdapter);
 
-        viewModel= ViewModelProviders.of(this).get(ParcelHistoryViewModel.class);
+        ParcelHistoryViewModel viewModel= ViewModelProviders.of(this).get(ParcelHistoryViewModel.class);
         viewModel.getParcels().observe(this, new Observer<List<Parcel>>() {
             @Override
             public void onChanged(List<Parcel> parcels) {

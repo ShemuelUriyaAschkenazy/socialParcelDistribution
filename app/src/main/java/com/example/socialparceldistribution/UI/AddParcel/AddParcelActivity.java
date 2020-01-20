@@ -13,21 +13,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -44,8 +37,6 @@ import java.util.List;
 public class AddParcelActivity extends AppCompatActivity implements View.OnClickListener {
 
     AddParcelViewModel addParcelViewModel;
-    RadioGroup radioGroup_type, radioGroup_fragility;
-    // Acquire a reference to the system Location Manager
     LocationManager locationManager;
     // Define a listener that responds to location updates
     LocationListener locationListener;
@@ -65,7 +56,7 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.add_action) {
             Parcel.ParcelType parcelType;
-            Boolean isFragile = false;
+            boolean isFragile = false;
             switch (spinner_type.getSelectedItemPosition()) {
                 case 0:
                     parcelType = Parcel.ParcelType.envelope;
@@ -100,14 +91,14 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                         location = new UserLocation(temp.getLatitude(), temp.getLongitude());
                     }
                     else
-                        Toast.makeText(this, "Unable to understand address", Toast.LENGTH_LONG);
+                        Toast.makeText(this, "Unable to understand address", Toast.LENGTH_LONG).show();
 
                 } catch (IOException e) {
-                    Toast.makeText(this, "Unable to understand address. Check Internet connection.", Toast.LENGTH_LONG);
+                    Toast.makeText(this, "Unable to understand address. Check Internet connection.", Toast.LENGTH_LONG).show();
                 }
             }
             parcel = new Parcel(
-                    parcelType, null,
+                    parcelType, Parcel.ParcelStatus.registered,
                     isFragile,
                     ((EditText) findViewById(R.id.et_weight)).getText().toString().equals("") ? null :
                             Double.parseDouble(((EditText) findViewById(R.id.et_weight)).getText().toString()),
@@ -118,11 +109,8 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                     null,
                     ((EditText) findViewById(R.id.et_recipient_phone)).getText().toString(),
                     ((EditText) findViewById(R.id.et_recipient_email)).getText().toString());
-
             addParcelViewModel.addParcel(parcel);
             finish();
-
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -178,7 +166,7 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == 5) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission is granted
@@ -197,7 +185,7 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
         // Parcel.ParcelType parcelType;
         if (v.getId() == R.id.btn_addParcel) {
             Parcel.ParcelType parcelType;
-            Boolean isFragile = false;
+            boolean isFragile = false;
             switch (spinner_type.getSelectedItemPosition()) {
                 case 0:
                     parcelType = Parcel.ParcelType.envelope;
@@ -220,11 +208,26 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                     isFragile = false;
                     break;
             }
+            Geocoder geocoder = new Geocoder(this);
+            String locationString = ((EditText) findViewById(R.id.et_location)).getText().toString();
+            if (locationString.isEmpty())
+                getLocation();
+            else {
+                try {
+                    List<Address> l = geocoder.getFromLocationName(locationString, 1);
+                    if (!l.isEmpty()) {
+                        Address temp = l.get(0);
+                        location = new UserLocation(temp.getLatitude(), temp.getLongitude());
+                    }
+                    else
+                        Toast.makeText(this, "Unable to understand address", Toast.LENGTH_LONG).show();
 
-            getLocation();
+                } catch (IOException e) {
+                    Toast.makeText(this, "Unable to understand address. Check Internet connection.", Toast.LENGTH_LONG).show();
+                }
+            }
             parcel = new Parcel(
-//                    Math.toIntExact(System.currentTimeMillis()/1000000),
-                    parcelType, null,
+                    parcelType, Parcel.ParcelStatus.registered,
                     isFragile,
                     ((EditText) findViewById(R.id.et_weight)).getText().toString().equals("") ? null :
                             Double.parseDouble(((EditText) findViewById(R.id.et_weight)).getText().toString()),
@@ -235,10 +238,6 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                     null,
                     ((EditText) findViewById(R.id.et_recipient_phone)).getText().toString(),
                     ((EditText) findViewById(R.id.et_recipient_email)).getText().toString());
-
-            //    public Parcel(int parcelId, ParcelType parcelType, Boolean isFragile, Double weight,
-//    Location location, String recipientName, String address, Date deliveryDate, Date arrivalDate,
-//    String recipientPhone, String recipientEmail, String messengerName, Int messengerId) {
             addParcelViewModel.addParcel(parcel);
             finish();
         }

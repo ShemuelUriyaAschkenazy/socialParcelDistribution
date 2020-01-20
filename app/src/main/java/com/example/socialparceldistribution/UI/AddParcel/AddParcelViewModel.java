@@ -15,9 +15,7 @@ import com.example.socialparceldistribution.Entities.Parcel;
 import java.util.Date;
 
 public class AddParcelViewModel extends AndroidViewModel {
-    ParcelRepository parcelRepository;
-    //MutableLiveData<Boolean> booleanMutableLiveData;
-    RadioGroup radioGroup_type, radioGroup_fragility;
+    private ParcelRepository parcelRepository;
     EditText etWeight, etLocation, etRecipient_name, etRecipient_phone, etRecipient_address, etRecipient_email,
             etMessenger_name, etMessenger_id;
 
@@ -38,8 +36,6 @@ public class AddParcelViewModel extends AndroidViewModel {
     public AddParcelViewModel(@NonNull Application application) {
         super(application);
         parcelRepository = ParcelRepository.getInstance(application);
-        //booleanMutableLiveData = new MutableLiveData<>();
-        //booleanMutableLiveData.postValue(true);
     }
 
 

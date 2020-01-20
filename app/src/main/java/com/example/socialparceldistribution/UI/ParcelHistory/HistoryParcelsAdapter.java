@@ -13,11 +13,12 @@ import com.example.socialparceldistribution.R;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class HistoryParcelsAdapter extends RecyclerView.Adapter<HistoryParcelsAdapter.HistoryParcelViewHolder> {
 
     private List<Parcel> parcels;
-    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
     public HistoryParcelsAdapter(List<Parcel> parcels) {
         this.parcels = parcels;
     }
@@ -30,7 +31,7 @@ public class HistoryParcelsAdapter extends RecyclerView.Adapter<HistoryParcelsAd
         TextView date;
         TextView messengerName;
 
-        public HistoryParcelViewHolder(View itemView) {
+        private HistoryParcelViewHolder(View itemView) {
             super(itemView);
 
             status=itemView.findViewById(R.id.status_tv);
@@ -45,8 +46,7 @@ public class HistoryParcelsAdapter extends RecyclerView.Adapter<HistoryParcelsAd
     @Override
     public HistoryParcelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.parcel_cell, parent,false);
-        HistoryParcelViewHolder historyParcelViewHolder = new HistoryParcelViewHolder(view);
-        return historyParcelViewHolder;
+        return new HistoryParcelViewHolder(view);
     }
 
     @Override
