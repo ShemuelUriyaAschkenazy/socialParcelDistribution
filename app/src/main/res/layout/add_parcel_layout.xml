@@ -28,7 +28,9 @@
             <Spinner
                 android:id="@+id/spinner_type"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                />
 
             <Spinner
                 android:id="@+id/isFragile_spinner"
@@ -96,14 +98,6 @@
                 android:hint="@string/address"
                 android:paddingBottom="16dp"
                 android:textSize="15sp" />
-
-
-            <!--TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/recipient_email"
-                android:textSize="18sp" /!-->
 
             <EditText
                 android:id="@+id/et_recipient_email"

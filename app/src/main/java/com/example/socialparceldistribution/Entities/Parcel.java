@@ -197,7 +197,7 @@ public class Parcel {
 
     @NonNull
     @PrimaryKey
-    private String parcelId = "aaa";
+    private String parcelId = "id";
     @TypeConverters(ParcelType.class)
     private ParcelType parcelType;
     @TypeConverters(ParcelStatus.class)

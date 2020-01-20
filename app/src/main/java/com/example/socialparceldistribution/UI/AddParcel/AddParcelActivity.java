@@ -3,11 +3,15 @@ package com.example.socialparceldistribution.UI.AddParcel;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -21,9 +25,11 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -31,7 +37,9 @@ import com.example.socialparceldistribution.Entities.Parcel;
 import com.example.socialparceldistribution.Entities.UserLocation;
 import com.example.socialparceldistribution.R;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 public class AddParcelActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,8 +55,79 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
 
     EditText etWeight, etLocation, etRecipient_name, etRecipient_phone, etRecipient_address, etRecipient_email;
 
-    Button btAddParcel;
-    RadioButton radioButton_envelope, radioButton_big, radioButton_small, radioButton_fragile, radioButton_noFragile;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_parcel_action_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.add_action) {
+            Parcel.ParcelType parcelType;
+            Boolean isFragile = false;
+            switch (spinner_type.getSelectedItemPosition()) {
+                case 0:
+                    parcelType = Parcel.ParcelType.envelope;
+                    break;
+                case 1:
+                    parcelType = Parcel.ParcelType.bigPackage;
+                    break;
+                case 2:
+                    parcelType = Parcel.ParcelType.smallPackage;
+                    break;
+                default:
+                    parcelType = null;
+            }
+
+            switch (spinner_isFragile.getSelectedItemPosition()) {
+                case 0:
+                    isFragile = true;
+                    break;
+                case 1:
+                    isFragile = false;
+                    break;
+            }
+            Geocoder geocoder = new Geocoder(this);
+            String locationString = ((EditText) findViewById(R.id.et_location)).getText().toString();
+            if (locationString.isEmpty())
+                getLocation();
+            else {
+                try {
+                    List<Address> l = geocoder.getFromLocationName(locationString, 1);
+                    if (!l.isEmpty()) {
+                        Address temp = l.get(0);
+                        location = new UserLocation(temp.getLatitude(), temp.getLongitude());
+                    }
+                    else
+                        Toast.makeText(this, "Unable to understand address", Toast.LENGTH_LONG);
+
+                } catch (IOException e) {
+                    Toast.makeText(this, "Unable to understand address. Check Internet connection.", Toast.LENGTH_LONG);
+                }
+            }
+            parcel = new Parcel(
+                    parcelType, null,
+                    isFragile,
+                    ((EditText) findViewById(R.id.et_weight)).getText().toString().equals("") ? null :
+                            Double.parseDouble(((EditText) findViewById(R.id.et_weight)).getText().toString()),
+                    location,
+                    ((EditText) findViewById(R.id.et_recipient_name)).getText().toString(),
+                    ((EditText) findViewById(R.id.et_recipient_address)).getText().toString(),
+                    new Date(),
+                    null,
+                    ((EditText) findViewById(R.id.et_recipient_phone)).getText().toString(),
+                    ((EditText) findViewById(R.id.et_recipient_email)).getText().toString());
+
+            addParcelViewModel.addParcel(parcel);
+            finish();
+
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     Parcel parcel;
 
     @Override
@@ -57,10 +136,13 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.add_parcel_layout);
 
         addParcelViewModel = ViewModelProviders.of(this).get(AddParcelViewModel.class);
-        addParcelViewModel.getIsSuccess().observe(this, new Observer<Boolean>() {
+        final LiveData<Boolean> isSuccess=addParcelViewModel.getIsSuccess();
+        isSuccess.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                Toast.makeText(AddParcelActivity.this, addParcelViewModel.getIsSuccess().getValue() == true ? "success" : "failure", Toast.LENGTH_LONG).show();
+                if (isSuccess.getValue()==null)
+                    return;
+                Toast.makeText(AddParcelActivity.this, isSuccess.getValue() == true ? "success" : "failure", Toast.LENGTH_LONG).show();
             }
         });
         findViewById(R.id.btn_addParcel).setOnClickListener(this);
@@ -115,7 +197,7 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
         // Parcel.ParcelType parcelType;
         if (v.getId() == R.id.btn_addParcel) {
             Parcel.ParcelType parcelType;
-            Boolean isFragile= false;
+            Boolean isFragile = false;
             switch (spinner_type.getSelectedItemPosition()) {
                 case 0:
                     parcelType = Parcel.ParcelType.envelope;

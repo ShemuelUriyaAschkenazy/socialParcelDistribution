@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">החבילה עוברת</string>
-    <string name="parcel_type">סוג החבילה</string>
+    <string name="parcel_type">פרטי החבילה</string>
     <string name="envelope">מעטפה</string>
     <string name="small_package">חבילה קטנה</string>
     <string name="weight_in_grams">משקל בגרמים</string>
@@ -22,7 +22,10 @@
     <string name="pick_up_suggested">הוצע לאסוף את החבילה</string>
     <string name="no_type_exist">סוג חבילה- לא ידוע</string>
     <string name="big_package">חבילה גדולה</string>
-
+    <string name="country">מדינה</string>
+    <string name="city">עיר</string>
+    <string name="house_number">מספר</string>
+    <string name="street">רחוב</string>
 
 
 </resources>

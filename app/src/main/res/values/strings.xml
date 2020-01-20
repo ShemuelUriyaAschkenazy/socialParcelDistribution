@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">socialParcelDistribution</string>
-    <string name="parcel_type">parcel type</string>
+    <string name="parcel_type">parcel details</string>
     <string name="envelope">envelope</string>
     <string name="small_package">small package</string>
     <string name="fragility">fragility</string>
@@ -21,6 +21,10 @@
     <string name="mail">mail</string>
     <string name="no_type_exist">parcel type- unknown</string>
     <string name="big_package">big package</string>
+    <string name="country">country</string>
+    <string name="city">city</string>
+    <string name="house_number">number</string>
+    <string name="street">street</string>
 
 
         <string-array name="parcelType">
@@ -33,5 +37,6 @@
         <item>@string/fragile</item>
         <item>@string/not_fragile</item>
     </string-array>
+
 
 </resources>
