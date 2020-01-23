@@ -39,8 +39,6 @@ public class ParcelDataSource {
         return parcelsList;
     }
 
-    // FirebaseDatabase firebaseDatabase =  FirebaseDatabase.getInstance();
-    // DatabaseReference warehouses = firebaseDatabase.getReference("warehouses");
     List<Parcel> parcelsList;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference parcels = firebaseDatabase.getReference("parcels");
