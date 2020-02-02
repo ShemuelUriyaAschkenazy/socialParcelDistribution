@@ -50,7 +50,7 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:id="@+id/et_location"
+                android:id="@+id/et_warehouseLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"

@@ -1,7 +1,5 @@
 package com.example.socialparceldistribution.Entities;
 
-import android.location.Location;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -171,37 +169,24 @@ public class Parcel {
     @TypeConverters(ParcelType.class)
     private ParcelType parcelType;
     @TypeConverters(ParcelStatus.class)
+    //TODO להסיר את הignore
     @Ignore
     private ParcelStatus parcelStatus;
     private Boolean isFragile;
 
-    public Parcel(ParcelType parcelType, ParcelStatus parcelStatus, Boolean isFragile, Double weight, Location warehouseLocation, String recipientName, String recipientAddress, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail, HashMap<com.example.socialparceldistribution.Entities.Person, Boolean> messengers) {
-        this.parcelType = parcelType;
-        this.parcelStatus = parcelStatus;
-        this.isFragile = isFragile;
-        this.weight = weight;
-        this.warehouseLocation = warehouseLocation;
-        this.recipientName = recipientName;
-        this.recipientAddress = recipientAddress;
-        this.deliveryDate = deliveryDate;
-        this.arrivalDate = arrivalDate;
-        this.recipientPhone = recipientPhone;
-        this.recipientEmail = recipientEmail;
-        this.messengers = messengers;
-    }
 
     private Double weight;
 
-    public Location getWarehouseLocation() {
-        return warehouseLocation;
+    public UserLocation getWarehouseUserLocation() {
+        return warehouseUserLocation;
     }
 
-    public void setWarehouseLocation(Location warehouseLocation) {
-        this.warehouseLocation = warehouseLocation;
+    public void setWarehouseUserLocation(UserLocation warehouseUserLocation) {
+        this.warehouseUserLocation = warehouseUserLocation;
     }
 
-    @TypeConverters(LocationConverter.class)
-    private Location warehouseLocation;
+    @TypeConverters(UserLocationConverter.class)
+    private UserLocation warehouseUserLocation;
 
 
     private String recipientName;
@@ -215,16 +200,43 @@ public class Parcel {
         this.recipientAddress = recipientAddress;
     }
 
-    public Location getRecipientLocation() {
-        return recipientLocation;
+    public UserLocation getRecipientUserLocation() {
+        return recipientUserLocation;
     }
 
-    public void setRecipientLocation(Location recipientLocation) {
-        this.recipientLocation = recipientLocation;
+    public void setRecipientUserLocation(UserLocation recipientUserLocation) {
+        this.recipientUserLocation = recipientUserLocation;
     }
 
+    public String getWarehouseAddress() {
+        return warehouseAddress;
+    }
+
+    public void setWarehouseAddress(String warehouseAddress) {
+        this.warehouseAddress = warehouseAddress;
+    }
+
+    private String warehouseAddress;
     private String recipientAddress;
-    private Location recipientLocation;
+    private UserLocation recipientUserLocation;
+
+    public Parcel(ParcelType parcelType, ParcelStatus parcelStatus, Boolean isFragile, Double weight, UserLocation warehouseUserLocation, String recipientName, String warehouseAddress, String recipientAddress, UserLocation recipientUserLocation, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail, HashMap<Person, Boolean> messengers) {
+        this.parcelType = parcelType;
+        this.parcelStatus = parcelStatus;
+        this.isFragile = isFragile;
+        this.weight = weight;
+        this.warehouseUserLocation = warehouseUserLocation;
+        this.recipientName = recipientName;
+        this.warehouseAddress = warehouseAddress;
+        this.recipientAddress = recipientAddress;
+        this.recipientUserLocation = recipientUserLocation;
+        this.deliveryDate = deliveryDate;
+        this.arrivalDate = arrivalDate;
+        this.recipientPhone = recipientPhone;
+        this.recipientEmail = recipientEmail;
+        this.messengers = messengers;
+    }
+
     @TypeConverters(DateConverter.class)
     private Date deliveryDate;
     @TypeConverters(DateConverter.class)
@@ -290,22 +302,19 @@ public class Parcel {
 
     }
 
-    public static class LocationConverter {
+    public static class UserLocationConverter {
         @TypeConverter
-        public Location fromString(String value) {
+        public UserLocation fromString(String value) {
             if (value==null||value.equals(""))
                 return null;
             Double lat= Double.parseDouble(value.split(" ")[0]);
             Double lang = Double.parseDouble(value.split(" ")[1]);
-            Location l =new Location("warehouseLocation");
-            l.setLatitude(lat);
-            l.setLongitude(lang);
-            return l;
+            return new UserLocation(lat, lang);
         }
 
         @TypeConverter
-        public String asString(Location warehouseLocation) {
-            return warehouseLocation==null? "":warehouseLocation.getLatitude() + " " + warehouseLocation.getLongitude();
+        public String asString(UserLocation warehouseUserLocation) {
+            return warehouseUserLocation==null? "":warehouseUserLocation.getLat() + " " + warehouseUserLocation.getLang();
         }
 
 
