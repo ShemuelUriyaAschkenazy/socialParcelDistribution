@@ -6,7 +6,7 @@ public class Person {
     @NonNull
     @Override
     public String toString() {
-        return name+" "+id+" "+phone;
+        return name+" "+id+" "+email;
     }
 
     public String getId() {
@@ -17,14 +17,6 @@ public class Person {
         this.id = id;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getName() {
         return name;
     }
@@ -33,13 +25,22 @@ public class Person {
         this.name = name;
     }
 
-    public Person(String id, String phone, String name) {
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Person(String id, String email, String name) {
         this.id = id;
-        this.phone = phone;
+        this.email = email;
         this.name = name;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     private String id;
-    private String phone;
+    private String email;
     private String name;
 }

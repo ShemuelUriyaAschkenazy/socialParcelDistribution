@@ -1,7 +1,8 @@
 package com.example.socialparceldistribution.Entities;
 
+import android.location.Location;
+
 import androidx.annotation.NonNull;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -10,10 +11,13 @@ import androidx.room.TypeConverters;
 
 import com.google.firebase.database.Exclude;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 public class Parcel {
@@ -57,14 +61,6 @@ public class Parcel {
         this.weight = weight;
     }
 
-    public UserLocation getLocation() {
-        return userLocation;
-    }
-
-    public void setLocation(UserLocation location) {
-        this.userLocation = location;
-    }
-
     public String getRecipientName() {
         return recipientName;
     }
@@ -73,13 +69,6 @@ public class Parcel {
         this.recipientName = recipientName;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public Date getDeliveryDate() {
         return deliveryDate;
@@ -112,16 +101,6 @@ public class Parcel {
     public void setRecipientEmail(String recipientEmail) {
         this.recipientEmail = recipientEmail;
     }
-
-
-    public UserLocation getUserLocation() {
-        return userLocation;
-    }
-
-    public void setUserLocation(UserLocation userLocation) {
-        this.userLocation = userLocation;
-    }
-
 
     public enum ParcelType {
         envelope(0), smallPackage(1), bigPackage(2);
@@ -176,15 +155,6 @@ public class Parcel {
         }
     }
 
-    @Exclude
-    public HashMap<Person, Boolean> getMessengers() {
-        return messengers;
-    }
-
-    @Exclude
-    public void setMessengers(HashMap<Person, Boolean> messengers) {
-        this.messengers = messengers;
-    }
 
     public ParcelStatus getParcelStatus() {
         return parcelStatus;
@@ -204,35 +174,72 @@ public class Parcel {
     @Ignore
     private ParcelStatus parcelStatus;
     private Boolean isFragile;
-    private Double weight;
-    @TypeConverters(LocationConverter.class)
-    private UserLocation userLocation;
 
-    public Parcel(ParcelType parcelType, ParcelStatus parcelStatus, Boolean isFragile, Double weight, UserLocation userLocation, String recipientName, String address, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail) {
+    public Parcel(ParcelType parcelType, ParcelStatus parcelStatus, Boolean isFragile, Double weight, Location warehouseLocation, String recipientName, String recipientAddress, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail, HashMap<com.example.socialparceldistribution.Entities.Person, Boolean> messengers) {
         this.parcelType = parcelType;
         this.parcelStatus = parcelStatus;
         this.isFragile = isFragile;
         this.weight = weight;
-        this.userLocation = userLocation;
+        this.warehouseLocation = warehouseLocation;
         this.recipientName = recipientName;
-        this.address = address;
+        this.recipientAddress = recipientAddress;
         this.deliveryDate = deliveryDate;
         this.arrivalDate = arrivalDate;
         this.recipientPhone = recipientPhone;
         this.recipientEmail = recipientEmail;
-        this.messengers = new HashMap<>();
+        this.messengers = messengers;
     }
 
+    private Double weight;
+
+    public Location getWarehouseLocation() {
+        return warehouseLocation;
+    }
+
+    public void setWarehouseLocation(Location warehouseLocation) {
+        this.warehouseLocation = warehouseLocation;
+    }
+
+    @TypeConverters(LocationConverter.class)
+    private Location warehouseLocation;
+
+
     private String recipientName;
-    private String address;
+
+
+    public String getRecipientAddress() {
+        return recipientAddress;
+    }
+
+    public void setRecipientAddress(String recipientAddress) {
+        this.recipientAddress = recipientAddress;
+    }
+
+    public Location getRecipientLocation() {
+        return recipientLocation;
+    }
+
+    public void setRecipientLocation(Location recipientLocation) {
+        this.recipientLocation = recipientLocation;
+    }
+
+    private String recipientAddress;
+    private Location recipientLocation;
     @TypeConverters(DateConverter.class)
     private Date deliveryDate;
     @TypeConverters(DateConverter.class)
     private Date arrivalDate;
     private String recipientPhone;
     private String recipientEmail;
-    @Exclude
-    @Ignore
+
+    public HashMap<Person, Boolean> getMessengers() {
+        return messengers;
+    }
+
+    public void setMessengers(HashMap<Person, Boolean> messengers) {
+        this.messengers = messengers;
+    }
+
     private HashMap<Person, Boolean> messengers;
 
     public static class DateConverter {
@@ -248,22 +255,59 @@ public class Parcel {
         }
     }
 
+    public static class MessengersConverter {
+        @TypeConverter
+        public HashMap<Person,Boolean> fromString(String value) {
+            if (value==null||value.isEmpty())
+                return null;
+            String[] mapString = value.split(","); //split map into array of (person,boolean) strings
+            HashMap<Person,Boolean>  hashMap= new HashMap<>();
+            for (String s1:mapString) //for all (person,boolean) in the map string
+            {
+                if(!s1.isEmpty()){//is empty maybe will needed because the last char in the string is ","
+                String[] s2= s1.split(":"); //split (person,boolean) to person string and boolean string.
+                String[] personString= s2[0].split(" "); //split person string into its 3 fields: name,id,email.
+                Person person= new Person(personString[0],personString[1],personString[2]);
+                Boolean b= Boolean.parseBoolean(s2[1]);
+                hashMap.put(person,b);}
+            }
+            return hashMap;
+        }
+
+        @TypeConverter
+        public String asString(HashMap<Person,Boolean> map) {
+            if (map==null)
+                return null;
+            StringBuilder mapString= new StringBuilder();
+            for (Map.Entry<Person,Boolean> entry:map.entrySet())
+            {
+                mapString.append(entry.getKey().toString()+":"+(Boolean.toString(entry.getValue()))+",");
+            }
+            return mapString.toString();
+        }
+
+
+
+    }
+
     public static class LocationConverter {
         @TypeConverter
-        public UserLocation fromString(String value) {
+        public Location fromString(String value) {
             if (value==null||value.equals(""))
                 return null;
             Double lat= Double.parseDouble(value.split(" ")[0]);
             Double lang = Double.parseDouble(value.split(" ")[1]);
-            return new UserLocation(lat,lang);
-
-
+            Location l =new Location("warehouseLocation");
+            l.setLatitude(lat);
+            l.setLongitude(lang);
+            return l;
         }
 
         @TypeConverter
-        public String asString(UserLocation userLocation) {
-            return userLocation==null? "":userLocation.getLat() + " " + userLocation.getLang();
+        public String asString(Location warehouseLocation) {
+            return warehouseLocation==null? "":warehouseLocation.getLatitude() + " " + warehouseLocation.getLongitude();
         }
+
 
 
     }

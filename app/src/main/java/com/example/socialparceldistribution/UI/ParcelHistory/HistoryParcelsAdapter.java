@@ -54,7 +54,7 @@ public class HistoryParcelsAdapter extends RecyclerView.Adapter<HistoryParcelsAd
         Parcel parcel = parcels.get(position);
         //holder.messengerName.setText(parcel.getMessengers().isEmpty()?"no messenger": parcel.getMessengerName()+"");
         holder.date.setText(parcel.getDeliveryDate()==null? "no date":format.format(parcel.getDeliveryDate()));
-        holder.address.setText(parcel.getAddress().isEmpty()?"no address":parcel.getAddress());
+        holder.address.setText(parcel.getRecipientAddress().isEmpty()?"no address":parcel.getRecipientAddress());
         holder.recipientName.setText(parcel.getRecipientName().isEmpty()?"no recipient name":parcel.getRecipientName());
         holder.parcelType.setText(parcel.getParcelType()==null?"no type":parcel.getParcelType().toString());
         holder.status.setText(parcel.getParcelStatus()==null?"no status":parcel.getParcelStatus().toString());

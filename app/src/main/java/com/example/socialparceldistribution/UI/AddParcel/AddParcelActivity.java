@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -38,9 +37,9 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
 
     AddParcelViewModel addParcelViewModel;
     LocationManager locationManager;
-    // Define a listener that responds to location updates
+    // Define a listener that responds to warehouseLocation updates
     LocationListener locationListener;
-    UserLocation location;
+    Location warehouseLocation;
     Spinner spinner_type;
     Spinner spinner_isFragile;
 
@@ -88,7 +87,10 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                     List<Address> l = geocoder.getFromLocationName(locationString, 1);
                     if (!l.isEmpty()) {
                         Address temp = l.get(0);
-                        location = new UserLocation(temp.getLatitude(), temp.getLongitude());
+                        Location loc= new Location("myLocationFromGps");
+                        loc.setLatitude(temp.getLatitude());
+                        loc.setLongitude(temp.getLongitude());
+                        warehouseLocation = loc;
                     }
                     else
                         Toast.makeText(this, "Unable to understand address", Toast.LENGTH_LONG).show();
@@ -102,13 +104,13 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                     isFragile,
                     ((EditText) findViewById(R.id.et_weight)).getText().toString().equals("") ? null :
                             Double.parseDouble(((EditText) findViewById(R.id.et_weight)).getText().toString()),
-                    location,
+                    warehouseLocation,
                     ((EditText) findViewById(R.id.et_recipient_name)).getText().toString(),
                     ((EditText) findViewById(R.id.et_recipient_address)).getText().toString(),
                     new Date(),
                     null,
                     ((EditText) findViewById(R.id.et_recipient_phone)).getText().toString(),
-                    ((EditText) findViewById(R.id.et_recipient_email)).getText().toString());
+                    ((EditText) findViewById(R.id.et_recipient_email)).getText().toString(),null);
             addParcelViewModel.addParcel(parcel);
             finish();
         }
@@ -162,7 +164,7 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
 
             Location l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (l != null)
-                location = new UserLocation(l.getLatitude(), l.getLongitude());
+                warehouseLocation = l;
         }
     }
 
@@ -174,7 +176,7 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                         checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             } else {
-                Toast.makeText(this, "Until you grant the permission, we cannot display the location", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Until you grant the permission, we cannot display the warehouseLocation", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -216,8 +218,10 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                 try {
                     List<Address> l = geocoder.getFromLocationName(locationString, 1);
                     if (!l.isEmpty()) {
-                        Address temp = l.get(0);
-                        location = new UserLocation(temp.getLatitude(), temp.getLongitude());
+                        Location loc= new Location("myLocationFromGps");
+                        loc.setLatitude(l.get(0).getLatitude());
+                        loc.setLongitude(l.get(0).getLongitude());
+                        warehouseLocation = loc;
                     }
                     else
                         Toast.makeText(this, "Unable to understand address", Toast.LENGTH_LONG).show();
@@ -231,13 +235,13 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                     isFragile,
                     ((EditText) findViewById(R.id.et_weight)).getText().toString().equals("") ? null :
                             Double.parseDouble(((EditText) findViewById(R.id.et_weight)).getText().toString()),
-                    location,
+                    warehouseLocation,
                     ((EditText) findViewById(R.id.et_recipient_name)).getText().toString(),
                     ((EditText) findViewById(R.id.et_recipient_address)).getText().toString(),
                     new Date(),
                     null,
                     ((EditText) findViewById(R.id.et_recipient_phone)).getText().toString(),
-                    ((EditText) findViewById(R.id.et_recipient_email)).getText().toString());
+                    ((EditText) findViewById(R.id.et_recipient_email)).getText().toString(),null);
             addParcelViewModel.addParcel(parcel);
             finish();
         }
