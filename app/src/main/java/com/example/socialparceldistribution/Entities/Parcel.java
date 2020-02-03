@@ -147,6 +147,13 @@ public class Parcel {
             }
             return null;
         }
+
+        @TypeConverter
+        public static Integer getTypeInt(ParcelStatus parcelStatus) {
+            if (parcelStatus != null)
+                return parcelStatus.code;
+            return null;
+        }
     }
 
 
@@ -165,8 +172,7 @@ public class Parcel {
     @TypeConverters(ParcelType.class)
     private ParcelType parcelType;
     @TypeConverters(ParcelStatus.class)
-    //TODO להסיר את הignore
-    @Ignore
+   
     private ParcelStatus parcelStatus;
     private Boolean isFragile;
 
