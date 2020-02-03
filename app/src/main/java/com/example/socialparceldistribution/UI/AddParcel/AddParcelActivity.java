@@ -85,7 +85,7 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                 getLocation();
                 if (warehouseLocation != null)
                     try {
-                        List<Address> l = geocoder.getFromLocation(warehouseLocation.getLat(), warehouseLocation.getLang(), 1);
+                        List<Address> l = geocoder.getFromLocation(warehouseLocation.getLat(), warehouseLocation.getLon(), 1);
                         if (!l.isEmpty()) {
                             Address temp = l.get(0);
                             warehouseAddress = temp.getAddressLine(0).toString();
@@ -263,7 +263,7 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                 getLocation();
                 if (warehouseLocation != null)
                     try {
-                        List<Address> l = geocoder.getFromLocation(warehouseLocation.getLat(), warehouseLocation.getLang(), 1);
+                        List<Address> l = geocoder.getFromLocation(warehouseLocation.getLat(), warehouseLocation.getLon(), 1);
                         if (!l.isEmpty()) {
                             Address temp = l.get(0);
                             warehouseAddress = temp.getAddressLine(0).toString();

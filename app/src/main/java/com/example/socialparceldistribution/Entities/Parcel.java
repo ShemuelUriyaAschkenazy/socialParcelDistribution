@@ -7,14 +7,10 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
-import com.google.firebase.database.Exclude;
-
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -314,7 +310,7 @@ public class Parcel {
 
         @TypeConverter
         public String asString(UserLocation warehouseUserLocation) {
-            return warehouseUserLocation==null? "":warehouseUserLocation.getLat() + " " + warehouseUserLocation.getLang();
+            return warehouseUserLocation==null? "":warehouseUserLocation.getLat() + " " + warehouseUserLocation.getLon();
         }
 
 
