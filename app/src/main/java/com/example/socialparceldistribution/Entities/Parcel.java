@@ -111,7 +111,7 @@ public class Parcel {
         @TypeConverter
         public static ParcelType getType(Integer numeral) {
             for (ParcelType ds : values()) {
-                if (ds.code == numeral) {
+                if (ds.code.equals(numeral)) {
                     return ds;
                 }
             }
@@ -216,7 +216,7 @@ public class Parcel {
     private String recipientAddress;
     private UserLocation recipientUserLocation;
 
-    public Parcel(ParcelType parcelType, ParcelStatus parcelStatus, Boolean isFragile, Double weight, UserLocation warehouseUserLocation, String recipientName, String warehouseAddress, String recipientAddress, UserLocation recipientUserLocation, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail, HashMap<Person, Boolean> messengers) {
+    public Parcel(ParcelType parcelType, ParcelStatus parcelStatus, Boolean isFragile, Double weight, UserLocation warehouseUserLocation, String recipientName, String warehouseAddress, String recipientAddress, UserLocation recipientUserLocation, Date deliveryDate, Date arrivalDate, String recipientPhone, String recipientEmail, HashMap<String, Boolean> messengers) {
         this.parcelType = parcelType;
         this.parcelStatus = parcelStatus;
         this.isFragile = isFragile;
@@ -240,15 +240,15 @@ public class Parcel {
     private String recipientPhone;
     private String recipientEmail;
 
-    public HashMap<Person, Boolean> getMessengers() {
+    public HashMap<String, Boolean> getMessengers() {
         return messengers;
     }
 
-    public void setMessengers(HashMap<Person, Boolean> messengers) {
+    public void setMessengers(HashMap<String, Boolean> messengers) {
         this.messengers = messengers;
     }
 
-    private HashMap<Person, Boolean> messengers;
+    private HashMap<String, Boolean> messengers;
 
     public static class DateConverter {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -265,31 +265,29 @@ public class Parcel {
 
     public static class MessengersConverter {
         @TypeConverter
-        public HashMap<Person,Boolean> fromString(String value) {
+        public HashMap<String, Boolean> fromString(String value) {
             if (value==null||value.isEmpty())
                 return null;
-            String[] mapString = value.split(","); //split map into array of (person,boolean) strings
-            HashMap<Person,Boolean>  hashMap= new HashMap<>();
-            for (String s1:mapString) //for all (person,boolean) in the map string
+            String[] mapString = value.split(","); //split map into array of (string,boolean) strings
+            HashMap<String, Boolean>  hashMap= new HashMap<>();
+            for (String s1:mapString) //for all (string,boolean) in the map string
             {
                 if(!s1.isEmpty()){//is empty maybe will needed because the last char in the string is ","
-                String[] s2= s1.split(":"); //split (person,boolean) to person string and boolean string.
-                String[] personString= s2[0].split(" "); //split person string into its 3 fields: name,id,email.
-                Person person= new Person(personString[0],personString[1],personString[2]);
-                Boolean b= Boolean.parseBoolean(s2[1]);
-                hashMap.put(person,b);}
+                String[] s2= s1.split(":"); //split (string,boolean) to person string and boolean string.
+                Boolean aBoolean= Boolean.parseBoolean(s2[1]);
+                hashMap.put(/*person string:*/s2[0],aBoolean);}
             }
             return hashMap;
         }
 
         @TypeConverter
-        public String asString(HashMap<Person,Boolean> map) {
+        public String asString(HashMap<String, Boolean> map) {
             if (map==null)
                 return null;
             StringBuilder mapString= new StringBuilder();
-            for (Map.Entry<Person,Boolean> entry:map.entrySet())
+            for (Map.Entry<String,Boolean> entry:map.entrySet())
             {
-                mapString.append(entry.getKey().toString()+":"+(Boolean.toString(entry.getValue()))+",");
+                mapString.append(entry.getKey()+":"+((entry.getValue()))+",");
             }
             return mapString.toString();
         }

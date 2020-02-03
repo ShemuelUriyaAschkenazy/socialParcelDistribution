@@ -31,6 +31,7 @@ import com.example.socialparceldistribution.R;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class AddParcelActivity extends AppCompatActivity implements View.OnClickListener {
@@ -158,7 +159,7 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                     new Date(),
                     null,
                     recipientPhone, recipientEmail,
-                    null);
+                    new HashMap<String, Boolean>());
             addParcelViewModel.addParcel(parcel);
             finish();
         }
@@ -336,7 +337,7 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                     new Date(),
                     null,
                     recipientPhone, recipientEmail,
-                    null);
+                    new HashMap<String, Boolean>());
             addParcelViewModel.addParcel(parcel);
 
             finish();
