@@ -25,9 +25,11 @@
     <string name="city">city</string>
     <string name="house_number">number</string>
     <string name="street">street</string>
+    <string name="enterPhone">9:please enter recipient phone</string>
+    <string name="pleaseTurnOnGPS">please turn on the GPS</string>
 
 
-        <string-array name="parcelType">
+    <string-array name="parcelType">
             <item>@string/envelope</item>
             <item>@string/small_package</item>
             <item>@string/big_package</item>
