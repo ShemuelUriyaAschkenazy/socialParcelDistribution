@@ -33,6 +33,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddParcelActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -146,6 +148,11 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
             String recipientPhone = ((EditText) findViewById(R.id.et_recipient_phone)).getText().toString();
             String recipientEmail = ((EditText) findViewById(R.id.et_recipient_email)).getText().toString();
 
+//            if(recipientPhone.toString().isEmpty()) {
+//                Toast.makeText(this, getResources().getString(R.string.enterPhone), Toast.LENGTH_LONG).show();
+//                return true;
+//            }
+
             parcel = new Parcel(
                     parcelType,
                     Parcel.ParcelStatus.registered,
@@ -210,6 +217,10 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Location_PERMISSION);
         } else{
             Location temp=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (temp==null){
+                Toast.makeText(this, getResources().getString(R.string.pleaseTurnOnGPS),Toast.LENGTH_LONG).show();
+                return;
+            }
             warehouseLocation = new UserLocation(temp.getLatitude(),temp.getLongitude());
 
         }
@@ -323,7 +334,13 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
             Double weight = ((EditText) findViewById(R.id.et_weight)).getText().toString().isEmpty() ? null:Double.parseDouble(((EditText) findViewById(R.id.et_weight)).getText().toString());
             String recipientPhone = ((EditText) findViewById(R.id.et_recipient_phone)).getText().toString();
             String recipientEmail = ((EditText) findViewById(R.id.et_recipient_email)).getText().toString();
+            if (recipientEmail.isEmpty() || !isValidEmail(recipientEmail)) {
+                Toast.makeText(this, "9:please enter valid recipient email", Toast.LENGTH_LONG).show();
+                return;
+            }
+            else {
 
+            }
             parcel = new Parcel(
                     parcelType,
                     Parcel.ParcelStatus.registered,
@@ -342,6 +359,15 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
 
             finish();
         }
+    }
+
+    private boolean isValidEmail(String recipientEmail) {
+        String regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(recipientEmail);
+        if (!matcher.matches())
+            return false;
+        return true;
     }
 
 

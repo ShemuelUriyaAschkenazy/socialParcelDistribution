@@ -41,7 +41,7 @@ public class ParcelDataSource {
 
     List<Parcel> parcelsList;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference parcels = firebaseDatabase.getReference("parcels");
+    DatabaseReference parcels = firebaseDatabase.getReference("ExistingParcels");
 
     private ParcelDataSource() {
         parcelsList = new ArrayList<>();
@@ -50,10 +50,11 @@ public class ParcelDataSource {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 parcelsList.clear();
                 if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Parcel parcel = snapshot.getValue(Parcel.class);
-                        parcelsList.add(parcel);
-                    }
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            Parcel parcel = snapshot1.getValue(Parcel.class);
+                            parcelsList.add(parcel);
+                        }
                 }
                 if (listener != null)
                     listener.change();
@@ -61,7 +62,6 @@ public class ParcelDataSource {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
@@ -78,7 +78,7 @@ public class ParcelDataSource {
     public void addParcel(Parcel p) {
         String id = parcels.push().getKey();
         p.setParcelId(id);
-        parcels.child(id).setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
+        parcels.child(p.getRecipientEmail().replace(".",",")).child(id).setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 isSuccess.setValue(true);

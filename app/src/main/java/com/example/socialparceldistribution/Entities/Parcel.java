@@ -2,7 +2,6 @@ package com.example.socialparceldistribution.Entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
@@ -165,7 +164,6 @@ public class Parcel {
         this.parcelStatus = parcelStatus;
     }
 
-
     @NonNull
     @PrimaryKey
     private String parcelId = "id";
@@ -178,7 +176,6 @@ public class Parcel {
 
 
     private Double weight;
-
     public UserLocation getWarehouseUserLocation() {
         return warehouseUserLocation;
     }
@@ -234,7 +231,7 @@ public class Parcel {
         this.recipientUserLocation = recipientUserLocation;
         this.deliveryDate = deliveryDate;
         this.arrivalDate = arrivalDate;
-        this.recipientPhone = recipientPhone;
+        setRecipientPhone(recipientPhone);
         this.recipientEmail = recipientEmail;
         this.messengers = messengers;
     }
