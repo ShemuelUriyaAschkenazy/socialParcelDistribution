@@ -24,7 +24,6 @@ public class ParcelRepository {
                 mutableLiveData.setValue(parcelDataSource.getParcelsList());
                 databaseHelper.clearTable();
                 databaseHelper.addParcels(parcelList);
-
             }
         };
         parcelDataSource.setChangedListener(changedListener);
