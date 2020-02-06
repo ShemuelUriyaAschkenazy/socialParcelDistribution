@@ -171,7 +171,6 @@ public class Parcel {
     @TypeConverters(ParcelType.class)
     private ParcelType parcelType;
     @TypeConverters(ParcelStatus.class)
-   
     private ParcelStatus parcelStatus;
     private Boolean isFragile;
 
