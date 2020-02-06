@@ -79,7 +79,7 @@ public class ParcelDataSource {
     public void addParcel(Parcel p) {
         String id = parcels.push().getKey();
         p.setParcelId(id);
-        parcels.child(p.getRecipientPhone()).child(id).setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
+        parcels.child(p.getRecipientEmail().replace(".",",")).child(id).setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 isSuccess.setValue(true);
