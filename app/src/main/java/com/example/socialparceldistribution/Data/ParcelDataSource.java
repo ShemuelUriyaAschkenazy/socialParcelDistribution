@@ -62,7 +62,6 @@ public class ParcelDataSource {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
