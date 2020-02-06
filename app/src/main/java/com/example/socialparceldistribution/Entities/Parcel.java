@@ -164,7 +164,6 @@ public class Parcel {
         this.parcelStatus = parcelStatus;
     }
 
-
     @NonNull
     @PrimaryKey
     private String parcelId = "id";
@@ -176,7 +175,6 @@ public class Parcel {
 
 
     private Double weight;
-
     public UserLocation getWarehouseUserLocation() {
         return warehouseUserLocation;
     }
