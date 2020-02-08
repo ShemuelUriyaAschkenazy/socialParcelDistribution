@@ -15,7 +15,8 @@ public class RoomDatabaseHelper {
         HistoryDataSource database=HistoryDataSource.getInstance(context);
 
         parcelDao =database.getParcelDao();
-        parcelDao.clear();
+        //Does not belong here
+//        parcelDao.clear();
     }
 
     public LiveData<List<Parcel>> getParcels(){
