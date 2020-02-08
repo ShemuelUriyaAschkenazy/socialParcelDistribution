@@ -4,13 +4,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.socialparceldistribution.Entities.Parcel;
 import com.example.socialparceldistribution.R;
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -29,7 +26,6 @@ public class HistoryParcelsAdapter extends RecyclerView.Adapter<HistoryParcelsAd
         TextView parcelType;
         TextView address;
         TextView date;
-        TextView messengerName;
 
         private HistoryParcelViewHolder(View itemView) {
             super(itemView);
@@ -39,7 +35,6 @@ public class HistoryParcelsAdapter extends RecyclerView.Adapter<HistoryParcelsAd
             parcelType=itemView.findViewById(R.id.type_tv);
             address=itemView.findViewById(R.id.address_tv);
             date=itemView.findViewById(R.id.date_tv);
-            messengerName=itemView.findViewById(R.id.messenger_name_tv);
         }
     }
     @NonNull
@@ -52,7 +47,6 @@ public class HistoryParcelsAdapter extends RecyclerView.Adapter<HistoryParcelsAd
     @Override
     public void onBindViewHolder(@NonNull HistoryParcelViewHolder holder, int position) {
         Parcel parcel = parcels.get(position);
-        //holder.messengerName.setText(parcel.getMessengers().isEmpty()?"no messenger": parcel.getMessengerName()+"");
         holder.date.setText(parcel.getDeliveryDate()==null? "no date":format.format(parcel.getDeliveryDate()));
         holder.address.setText(parcel.getRecipientAddress().isEmpty()?"no address":parcel.getRecipientAddress());
         holder.recipientName.setText(parcel.getRecipientName().isEmpty()?"no recipient name":parcel.getRecipientName());

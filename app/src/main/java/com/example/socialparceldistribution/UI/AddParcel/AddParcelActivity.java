@@ -40,11 +40,11 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
 
     AddParcelViewModel addParcelViewModel;
     LocationManager locationManager;
-    // Define a listener that responds to warehouseLocation updates
-    LocationListener locationListener;
-    UserLocation warehouseLocation;
+    Location warehouseLocation;
     Spinner spinner_type;
     Spinner spinner_isFragile;
+    final int LOCATION_PERMISSION = 1;
+
 
     EditText etWeight, etLocation, etRecipient_name, etRecipient_phone, etRecipient_address, etRecipient_email;
 
@@ -57,38 +57,29 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.add_action) {
-            Parcel.ParcelType parcelType;
-            boolean isFragile = false;
-            switch (spinner_type.getSelectedItemPosition()) {
-                case 0:
-                    parcelType = Parcel.ParcelType.envelope;
-                    break;
-                case 1:
-                    parcelType = Parcel.ParcelType.bigPackage;
-                    break;
-                case 2:
-                    parcelType = Parcel.ParcelType.smallPackage;
-                    break;
-                default:
-                    parcelType = null;
-            }
 
-            switch (spinner_isFragile.getSelectedItemPosition()) {
-                case 0:
-                    isFragile = true;
-                    break;
-                case 1:
-                    isFragile = false;
-                    break;
-            }
-            Geocoder geocoder = new Geocoder(this);
+            String recipientName = ((EditText) findViewById(R.id.et_recipient_name)).getText().toString();
+            Double weight = ((EditText) findViewById(R.id.et_weight)).getText().toString().isEmpty() ? null : Double.parseDouble(((EditText) findViewById(R.id.et_weight)).getText().toString());
+            String recipientPhone = ((EditText) findViewById(R.id.et_recipient_phone)).getText().toString();
+            String recipientEmail = ((EditText) findViewById(R.id.et_recipient_email)).getText().toString();
+            int typeSpinnerPosition = spinner_type.getSelectedItemPosition();
+            int isFragileSpinnerPosition = spinner_isFragile.getSelectedItemPosition();
+            String recipientAddress = ((EditText) findViewById(R.id.et_recipient_address)).getText().toString();
             String warehouseAddress = ((EditText) findViewById(R.id.et_warehouseLocation)).getText().toString();
+            Location recipientLocation;
 
+
+
+            if (addParcelViewModel.isValidEmail(recipientEmail)) {
+                Toast.makeText(this, "6:please enter valid email", Toast.LENGTH_LONG).show();
+            }
+
+            Geocoder geocoder = new Geocoder(this);
             if (warehouseAddress.isEmpty()) { //calc address according to the location
                 getLocation();
                 if (warehouseLocation != null)
                     try {
-                        List<Address> l = geocoder.getFromLocation(warehouseLocation.getLat(), warehouseLocation.getLon(), 1);
+                        List<Address> l = geocoder.getFromLocation(warehouseLocation.getLatitude(), warehouseLocation.getLongitude(), 1);
                         if (!l.isEmpty()) {
                             Address temp = l.get(0);
                             warehouseAddress = temp.getAddressLine(0).toString();
@@ -109,7 +100,9 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                     List<Address> l = geocoder.getFromLocationName(warehouseAddress, 1);
                     if (!l.isEmpty()) {
                         Address temp = l.get(0);
-                        warehouseLocation = new UserLocation(temp.getLatitude(),temp.getLongitude());
+                        warehouseLocation = new Location("warehouseLocation");
+                        warehouseLocation.setLatitude(temp.getLatitude());
+                        warehouseLocation.setLongitude(temp.getLongitude());
                     } else {
                         Toast.makeText(this, "4:Unable to understand address", Toast.LENGTH_LONG).show();
                         return true;
@@ -120,9 +113,6 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                 }
             }
 
-            String recipientAddress = ((EditText) findViewById(R.id.et_recipient_address)).getText().toString();
-            UserLocation recipientLocation;
-            //calc location according to the given address
             if (recipientAddress.isEmpty()) {
                 Toast.makeText(this, "6:please enter recipient address", Toast.LENGTH_LONG).show();
                 return true;
@@ -131,7 +121,9 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                 List<Address> l = geocoder.getFromLocationName(recipientAddress, 1);
                 if (!l.isEmpty()) {
                     Address temp = l.get(0);
-                    recipientLocation = new UserLocation(temp.getLatitude(),temp.getLongitude());
+                    recipientLocation = new Location("recipientLocation");
+                    recipientLocation.setLatitude(temp.getLatitude());
+                    recipientLocation.setLongitude(temp.getLongitude());
                 } else {
                     Toast.makeText(this, "7:Unable to understand address, try again", Toast.LENGTH_LONG).show();
                     return true;
@@ -141,39 +133,26 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                 return true;
             }
 
-
-            String recipientName = ((EditText) findViewById(R.id.et_recipient_name)).getText().toString();
-            String w= ((EditText) findViewById(R.id.et_weight)).getText().toString();
-            Double weight = ((EditText) findViewById(R.id.et_weight)).getText().toString().isEmpty() ? null:Double.parseDouble(((EditText) findViewById(R.id.et_weight)).getText().toString());
-            String recipientPhone = ((EditText) findViewById(R.id.et_recipient_phone)).getText().toString();
-            String recipientEmail = ((EditText) findViewById(R.id.et_recipient_email)).getText().toString();
-
 //            if(recipientPhone.toString().isEmpty()) {
 //                Toast.makeText(this, getResources().getString(R.string.enterPhone), Toast.LENGTH_LONG).show();
 //                return true;
 //            }
 
-            parcel = new Parcel(
-                    parcelType,
-                    Parcel.ParcelStatus.registered,
-                    isFragile,
+            addParcelViewModel.addParcel(typeSpinnerPosition,
+                    isFragileSpinnerPosition,
                     weight,
                     warehouseLocation,
                     recipientName,
                     warehouseAddress,
                     recipientAddress,
                     recipientLocation,
-                    new Date(),
-                    null,
-                    recipientPhone, recipientEmail,
-                    new HashMap<String, Boolean>());
-            addParcelViewModel.addParcel(parcel);
+                    recipientPhone,
+                    recipientEmail);
+
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
-
-    Parcel parcel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -210,72 +189,55 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
 
 
     private void getLocation() {
-        final int Location_PERMISSION = 1;
-        // Check the SDK version and whether the permission is already granted or not.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Location_PERMISSION);
-        } else{
-            Location temp=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (temp==null){
-                Toast.makeText(this, getResources().getString(R.string.pleaseTurnOnGPS),Toast.LENGTH_LONG).show();
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION);
+        } else {
+            warehouseLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (warehouseLocation == null) {
+                Toast.makeText(this, getResources().getString(R.string.pleaseTurnOnGPS), Toast.LENGTH_LONG).show();
                 return;
             }
-            warehouseLocation = new UserLocation(temp.getLatitude(),temp.getLongitude());
-
         }
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == 5) {
+        if (requestCode == LOCATION_PERMISSION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission is granted
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                         checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                    warehouseLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             } else {
                 Toast.makeText(this, "Until you grant the permission, we cannot display the warehouseLocation", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_addParcel) {
-            Parcel.ParcelType parcelType;
-            boolean isFragile = false;
-            switch (spinner_type.getSelectedItemPosition()) {
-                case 0:
-                    parcelType = Parcel.ParcelType.envelope;
-                    break;
-                case 1:
-                    parcelType = Parcel.ParcelType.bigPackage;
-                    break;
-                case 2:
-                    parcelType = Parcel.ParcelType.smallPackage;
-                    break;
-                default:
-                    parcelType = null;
-            }
-
-            switch (spinner_isFragile.getSelectedItemPosition()) {
-                case 0:
-                    isFragile = true;
-                    break;
-                case 1:
-                    isFragile = false;
-                    break;
-            }
-            Geocoder geocoder = new Geocoder(this);
+            String recipientName = ((EditText) findViewById(R.id.et_recipient_name)).getText().toString();
+            Double weight = ((EditText) findViewById(R.id.et_weight)).getText().toString().isEmpty() ? null : Double.parseDouble(((EditText) findViewById(R.id.et_weight)).getText().toString());
+            String recipientPhone = ((EditText) findViewById(R.id.et_recipient_phone)).getText().toString();
+            String recipientEmail = ((EditText) findViewById(R.id.et_recipient_email)).getText().toString();
+            int typeSpinnerPosition = spinner_type.getSelectedItemPosition();
+            int isFragileSpinnerPosition = spinner_isFragile.getSelectedItemPosition();
+            String recipientAddress = ((EditText) findViewById(R.id.et_recipient_address)).getText().toString();
             String warehouseAddress = ((EditText) findViewById(R.id.et_warehouseLocation)).getText().toString();
+            Location recipientLocation;
 
+            if (addParcelViewModel.isValidEmail(recipientEmail)) {
+                Toast.makeText(this, "6:please enter valid email", Toast.LENGTH_LONG).show();
+            }
+
+            Geocoder geocoder = new Geocoder(this);
             if (warehouseAddress.isEmpty()) { //calc address according to the location
                 getLocation();
                 if (warehouseLocation != null)
                     try {
-                        List<Address> l = geocoder.getFromLocation(warehouseLocation.getLat(), warehouseLocation.getLon(), 1);
+                        List<Address> l = geocoder.getFromLocation(warehouseLocation.getLatitude(), warehouseLocation.getLongitude(), 1);
                         if (!l.isEmpty()) {
                             Address temp = l.get(0);
                             warehouseAddress = temp.getAddressLine(0).toString();
@@ -296,7 +258,9 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                     List<Address> l = geocoder.getFromLocationName(warehouseAddress, 1);
                     if (!l.isEmpty()) {
                         Address temp = l.get(0);
-                        warehouseLocation = new UserLocation(temp.getLatitude(),temp.getLongitude());
+                        warehouseLocation = new Location("warehouseLocation");
+                        warehouseLocation.setLatitude(temp.getLatitude());
+                        warehouseLocation.setLongitude(temp.getLongitude());
                     } else {
                         Toast.makeText(this, "4:Unable to understand address", Toast.LENGTH_LONG).show();
                         return;
@@ -307,8 +271,6 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                 }
             }
 
-            String recipientAddress = ((EditText) findViewById(R.id.et_recipient_address)).getText().toString();
-            UserLocation recipientLocation;
             //calc location according to the given address
             if (recipientAddress.isEmpty()) {
                 Toast.makeText(this, "6:please enter recipient address", Toast.LENGTH_LONG).show();
@@ -318,7 +280,9 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                 List<Address> l = geocoder.getFromLocationName(recipientAddress, 1);
                 if (!l.isEmpty()) {
                     Address temp = l.get(0);
-                    recipientLocation = new UserLocation(temp.getLatitude(),temp.getLongitude());
+                    recipientLocation = new Location("recipientLocation");
+                    recipientLocation.setLatitude(temp.getLatitude());
+                    recipientLocation.setLongitude(temp.getLongitude());
                 } else {
                     Toast.makeText(this, "7:Unable to understand address, try again", Toast.LENGTH_LONG).show();
                     return;
@@ -328,48 +292,24 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
                 return;
             }
 
+//            if(recipientPhone.toString().isEmpty()) {
+//                Toast.makeText(this, getResources().getString(R.string.enterPhone), Toast.LENGTH_LONG).show();
+//                return true;
+//            }
 
-            String recipientName = ((EditText) findViewById(R.id.et_recipient_name)).getText().toString();
-            String w= ((EditText) findViewById(R.id.et_weight)).getText().toString();
-            Double weight = ((EditText) findViewById(R.id.et_weight)).getText().toString().isEmpty() ? null:Double.parseDouble(((EditText) findViewById(R.id.et_weight)).getText().toString());
-            String recipientPhone = ((EditText) findViewById(R.id.et_recipient_phone)).getText().toString();
-            String recipientEmail = ((EditText) findViewById(R.id.et_recipient_email)).getText().toString();
-            if (recipientEmail.isEmpty() || !isValidEmail(recipientEmail)) {
-                Toast.makeText(this, "9:please enter valid recipient email", Toast.LENGTH_LONG).show();
-                return;
-            }
-            else {
-
-            }
-            parcel = new Parcel(
-                    parcelType,
-                    Parcel.ParcelStatus.registered,
-                    isFragile,
+            addParcelViewModel.addParcel(typeSpinnerPosition,
+                    isFragileSpinnerPosition,
                     weight,
                     warehouseLocation,
                     recipientName,
                     warehouseAddress,
                     recipientAddress,
                     recipientLocation,
-                    new Date(),
-                    null,
-                    recipientPhone, recipientEmail,
-                    new HashMap<String, Boolean>());
-            addParcelViewModel.addParcel(parcel);
+                    recipientPhone,
+                    recipientEmail);
 
             finish();
         }
     }
-
-    private boolean isValidEmail(String recipientEmail) {
-        String regex = "^(.+)@(.+)$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(recipientEmail);
-        if (!matcher.matches())
-            return false;
-        return true;
-    }
-
-
 }
 
