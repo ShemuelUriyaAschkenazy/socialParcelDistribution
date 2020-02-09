@@ -70,8 +70,9 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
 
 
 
-            if (addParcelViewModel.isValidEmail(recipientEmail)) {
+            if (!addParcelViewModel.isValidEmail(recipientEmail)) {
                 Toast.makeText(this, "6:please enter valid email", Toast.LENGTH_LONG).show();
+                return true;
             }
 
             Geocoder geocoder = new Geocoder(this);
@@ -228,8 +229,9 @@ public class AddParcelActivity extends AppCompatActivity implements View.OnClick
             String warehouseAddress = ((EditText) findViewById(R.id.et_warehouseLocation)).getText().toString();
             Location recipientLocation;
 
-            if (addParcelViewModel.isValidEmail(recipientEmail)) {
+            if (!addParcelViewModel.isValidEmail(recipientEmail)) {
                 Toast.makeText(this, "6:please enter valid email", Toast.LENGTH_LONG).show();
+                return;
             }
 
             Geocoder geocoder = new Geocoder(this);
