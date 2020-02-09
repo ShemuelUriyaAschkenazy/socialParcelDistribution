@@ -13,13 +13,15 @@ public class ParcelHistoryViewModel extends AndroidViewModel {
     private LiveData<List<Parcel>> parcels;
     private ParcelRepository database;
 
-
     public ParcelHistoryViewModel(@NonNull Application application) {
         super(application);
       database=ParcelRepository.getInstance(application);
     }
 
     LiveData<List<Parcel>> getParcels() {
-        return database.getParcels();
+        parcels=database.getParcels();
+        return parcels;
     }
+
+
 }
